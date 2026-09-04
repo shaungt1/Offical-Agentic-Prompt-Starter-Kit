@@ -35,6 +35,42 @@ Two ways this file gets used:
 
 ---
 
+## ‼️ FRAMEWORK_ROOT ‼️
+
+```text
+FRAMEWORK_ROOT = <FRAMEWORK_ROOT>
+```
+
+**EVERY** script, prompt, instruction, skill, rule, task, workflow, and specification this file talks about lives under this one path. When you need to run a script, load a prompt, follow an instruction, or — most importantly — **create a new skill, instruction, rule, task, or any other agent-control artifact**, THIS IS WHERE IT GOES, and it MUST be built using the matching contract under `<FRAMEWORK_ROOT>/agent-specifications/specs/`. Do not invent a parallel structure elsewhere.
+
+---
+
+## 🧠 MEMORY — READ ON START, THEN CARRY IT IN CONTEXT
+
+Read this before the critical rules below. Memory is not optional background reading — it changes what you should do on the current turn.
+
+There are exactly two memory systems in this framework, and they are triggered differently:
+
+| | Episodic (`memory/MEMORY_INDEX.md`) | Implicit (`memory/implicit/`) |
+|---|---|---|
+| **Triggered by** | The user **explicitly** says something to remember | You infer a pattern from evidence, outcomes, or repetition |
+| **Examples** | "I like the color blue — only show me blue templates." · "I like dogs, don't show me cats." · "Call me sir." | A recurring correction reveals a working style the user never stated outright |
+| **When to record** | Immediately, in the same turn the user says it | After noticing the pattern is likely to matter again |
+| **When to check** | Before acting on any request | Before a meaningful response or action, when it could plausibly apply |
+
+**Enforcement:** if the user gives you a direct, explicit instruction about how to treat them, what to show them, or what to avoid — that is an episodic-memory event. Add the row to `memory/MEMORY_INDEX.md` in the same turn, before moving on. Do not rely on remembering it "in your head" for the rest of the session — write it down.
+
+### ‼️ How Often To Actually Read The Files ‼️
+
+- **At the start of a new conversation** (this file is being read for the first time this session), read both `memory/MEMORY_INDEX.md` and `memory/implicit/implicit.memory.md` and hold their contents in context.
+- **After that, do not re-read them.** They are already in your context window. "Check memory before acting" means *consult what you already loaded*, not re-open the files on every turn — that would burn context for no reason.
+- **When you add a new entry**, you already know the old entries plus the one you just added — no re-read needed there either.
+- **The one time you DO need to re-read them:** if this conversation's context has been **compacted or summarized**, the full memory contents may no longer be reliably present. Re-read both files once, immediately, before continuing.
+
+For implicit memory's full add/update/supersede/remove behavior, follow `memory/implicit/implicit-memory.instructions.md` exactly — do not improvise a different mechanism.
+
+---
+
 ## ⚠️ CRITICAL RULES — READ FIRST
 
 These apply on top of, not instead of, any project-specific rules in `rules/RULES.md`.
@@ -86,6 +122,7 @@ Before relying on this file alone:
 |---|---|---|
 | `README.md` | Repository-level routing guide | Start here for install/setup; explains every install method and links every root manifest |
 | `AGENTS.md` (this file) | Portable entry pointer | Copy into a consuming project's root; wires that project's agents to this framework |
+| `AGENT_FOLDER_README_TEMPLATE.md` | Lean-install README source | Becomes `README.md` at the root of every `--layout lean` install (the default); maps the runtime folders only |
 | `AGENT-SETUP.INSTRUCTIONS.md` | Setup instructions | How to install/locate/wire the framework into a project, fresh or existing |
 | `MIGRATION.INSTRUCTIONS.md` | Migration instructions | How to non-destructively integrate an existing project's own skills/rules/tasks/etc. into this framework |
 | `INSTALL-FRAMEWORK.SH` | Installer script | Automated install/update from a local copy or a Git URL, with backup and validation |
@@ -100,7 +137,8 @@ Before relying on this file alone:
 | `agents/AGENTS.md` | Agent/subagent role manifest | The framework's OWN registry of agent roles — distinct from this pointer file |
 | `tools/TOOLS.md` | Tool-contract manifest | Callable actions and their side effects |
 | `identity/IDENTITY.md` | Identity definition | Stable agent identity/presentation |
-| `memory/MEMORY.md` | Memory manifest | Routes to episodic and implicit memory systems (see "Dynamic Subsystems" below) |
+| `memory/MEMORY.md` | Memory manifest | Routes to the episodic and implicit memory systems (see "Memory" above) |
+| `memory/MEMORY_INDEX.md` | Episodic memory log | The actual episodic store — explicit user-stated preferences/decisions, checked on almost every request |
 | `memory/implicit/` | Implicit-memory subsystem | Working implementation: `IMPLICIT_MEMORY.md`, `implicit-memory.instructions.md`, `implicit.memory.md` (the actual store) |
 | `emulation/` | Owner-model pipeline | `EMULATION.MANIFEST.md` + `OBSERVATION.INSTRUCTIONS.md`, `GUARDIAN.INSTRUCTIONS.md`, `OPTIMIZATION.INSTRUCTIONS.md` |
 | `telemetry/HEARTBEAT.md` | Heartbeat pattern | Recurring same-context session re-entry (not an independent cron job) |
@@ -111,13 +149,9 @@ Before relying on this file alone:
 
 ---
 
-## Dynamic / Ongoing Subsystems — How to Use Them
+## Other Ongoing Subsystems — How to Use Them
 
-Unlike the static manifests above, these three subsystems expect you to actively engage with them during a session, not just read them once.
-
-### Implicit Memory (`memory/implicit/`)
-
-Before a meaningful response or action, briefly consider whether relevant implicit memory could matter here, and retrieve only what's relevant. After acting, consider whether anything happened that should be remembered for later — a correction, a preference, a learned failure pattern, a strategy that worked. If so, take the smallest useful memory action per `memory/implicit/implicit-memory.instructions.md`. Do not store trivia, transcripts, or information with no plausible future value.
+Memory is covered above. These two also expect active engagement during a session, not just a one-time read.
 
 ### Emulation (`emulation/`)
 

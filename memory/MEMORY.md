@@ -24,13 +24,14 @@ Memory is not a rule. Memory describes what was observed, learned, or retained. 
 
 ```text
 memory/
-├── memory.md
-├── episodic/
-│   ├── ...
-│   └── rules/
-└── implicit/
-    ├── ...
-    └── rules/
+├── MEMORY.md               # This file — routing manifest
+├── MEMORY_INDEX.md         # Episodic memory log (flat file; behavior defined inline)
+└── implicit/               # Implicit memory subsystem
+    ├── IMPLICIT_MEMORY.md
+    ├── implicit-memory.instructions.md
+    ├── implicit-memory-tool.specification.md
+    ├── implicit.memory.md
+    └── MEMORY_INDEX_ENTRY.md
 ```
 
 The exact storage shape may be changed by the applicable memory specification or project configuration.
@@ -50,6 +51,7 @@ When adding memory:
 
 | Status | Memory System / Collection | Type | Purpose | Canonical Path | Version | Rules / Notes |
 |---|---|---|---|---|---|---|
+| active | Episodic Memory | Episodic | Chronological log of what the user **explicitly** stated should be remembered — preferences, standing instructions, corrections, decisions. | `memory/MEMORY_INDEX.md` | 0.1 | Governed by `agent-specifications/specs/episodic-memory.specification.md`. Check on (almost) every request; add a row the moment the user states something explicitly. |
 | active | Implicit Memory | Implicit | Persistent, revisable conclusions derived from interaction, evidence, and reflection that are expected to materially improve future reasoning or behavior. | `memory/implicit/IMPLICIT_MEMORY.md` | 1.0 | Governed by `agent-specifications/specs/implicit-memory.specification.md`; operational hook in `memory/implicit/implicit-memory.instructions.md`. |
 
 ## Memory-Scoped Rules
@@ -57,8 +59,8 @@ When adding memory:
 Memory-specific behavioral rules are stored with the memory system rather than duplicated into the general project rule manifest:
 
 ```text
-memory/episodic/rules/
-memory/implicit/rules/
+memory/MEMORY_INDEX.md                          # episodic behavior, defined inline
+memory/implicit/implicit-memory.instructions.md # implicit behavior
 ```
 
 These rules remain subject to `agent-specifications/specs/rules.specification.md` in addition to the applicable memory specification.

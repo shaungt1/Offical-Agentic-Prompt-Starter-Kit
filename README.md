@@ -238,6 +238,10 @@ INSTALL-FRAMEWORK.SH
 
 The script is designed to avoid the nested-repository problem.
 
+### Lean vs. Full Layout
+
+`--layout lean` (the default) copies only the runtime folders — specs, skills, rules, tasks, workflows, agents, tools, memory, identity, mcp, and the rest — plus a generated `README.md` mapping every one of them. It deliberately leaves out this repository's own research documents, setup guides, and `INSTALL-FRAMEWORK.SH` itself; those stay in the source repository. Use `--layout full` to copy everything instead.
+
 ### Install From an Already Downloaded Copy
 
 ```bash
@@ -312,7 +316,7 @@ It exposes tools that an MCP-capable agent can use to:
 
 - scan a project for existing vendor folders (`.claude`, `.github`, `.cursor`, `.qwen`, `.gemini`), an Admin Local Toolbox, and existing entry files, returning a ranked `FRAMEWORK_ROOT` suggestion (`framework_detect`);
 - inspect a framework installation (`framework_inspect`);
-- copy/install or update the framework safely, optionally generating a default `.mcp.json` and/or `.vscode/mcp.json` via `withMcp: 'claude' | 'vscode' | 'both'` if one doesn't already exist (`framework_install_or_update`);
+- copy/install or update the framework safely — `layout: 'lean' | 'full'` (default `lean`) controls whether only the runtime folders + a generated `README.md` are copied, or the entire upstream repository; optionally also generating a default `.mcp.json` and/or `.vscode/mcp.json` via `withMcp: 'claude' | 'vscode' | 'both'` if one doesn't already exist (`framework_install_or_update`);
 - wire an agent-control file to the framework (`framework_wire_agent`);
 - inventory existing agent-control artifacts and write a migration plan (`framework_write_migration_plan`).
 
@@ -495,7 +499,8 @@ agent-specifications/specs/vendor-formats.specification.md
 ```text
 /
 ├── README.md
-├── AGENTS.md                    # Ready-to-copy portable pointer/entry file (see §6)
+├── AGENTS.md                              # Ready-to-copy portable pointer/entry file (see §6)
+├── AGENT_FOLDER_README_TEMPLATE.md        # Becomes README.md inside every --layout lean install (see §3)
 ├── AGENT-SETUP.INSTRUCTIONS.md
 ├── MIGRATION.INSTRUCTIONS.md
 ├── INSTALL-FRAMEWORK.SH

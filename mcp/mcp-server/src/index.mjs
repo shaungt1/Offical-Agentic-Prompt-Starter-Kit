@@ -36,25 +36,56 @@ async function exists(p) {
   }
 }
 
-async function copyFramework(sourceRoot, destinationRoot) {
+const LEAN_FOLDERS = [
+  'agent-specifications', 'agents', 'emulation', 'identity', 'instructions', 'mcp', 'memory',
+  'modes', 'plans', 'prompt_engineering', 'rules', 'skills', 'state', 'task', 'telemetry',
+  'tools', 'workflows'
+];
+
+async function copyFramework(sourceRoot, destinationRoot, layout = 'lean') {
   const source = path.resolve(sourceRoot);
   const destination = path.resolve(destinationRoot);
 
-  await fs.cp(source, destination, {
-    recursive: true,
-    force: true,
-    filter: (src) => {
-      const rel = path.relative(source, src);
-      if (!rel) return true;
-      const parts = rel.split(path.sep);
-      if (parts.includes('.git')) return false;
-      if (parts.includes('node_modules')) return false;
-      if (parts.includes('.admin-local')) return false;
-      if (parts.includes('.DS_Store')) return false;
-      if (rel.endsWith('.zip')) return false;
-      return true;
+  const baseFilter = (src) => {
+    const rel = path.relative(source, src);
+    if (!rel) return true;
+    const parts = rel.split(path.sep);
+    if (parts.includes('.git')) return false;
+    if (parts.includes('node_modules')) return false;
+    if (parts.includes('.DS_Store')) return false;
+    if (rel.endsWith('.zip')) return false;
+    return true;
+  };
+
+  if (layout === 'full') {
+    await fs.cp(source, destination, {
+      recursive: true,
+      force: true,
+      filter: (src) => baseFilter(src) && !path.relative(source, src).split(path.sep).includes('.admin-local')
+    });
+    return;
+  }
+
+  // Lean layout: only the runtime folders an agent actually needs, plus .gitignore and a
+  // generated README describing them. Excludes this repo's own research docs and setup tooling.
+  await fs.mkdir(destination, { recursive: true });
+
+  const gitignorePath = path.join(source, '.gitignore');
+  if (await exists(gitignorePath)) {
+    await fs.copyFile(gitignorePath, path.join(destination, '.gitignore'));
+  }
+
+  for (const folder of LEAN_FOLDERS) {
+    const folderSource = path.join(source, folder);
+    if (await exists(folderSource)) {
+      await fs.cp(folderSource, path.join(destination, folder), { recursive: true, force: true, filter: baseFilter });
     }
-  });
+  }
+
+  const readmeTemplate = path.join(source, 'AGENT_FOLDER_README_TEMPLATE.md');
+  if (await exists(readmeTemplate)) {
+    await fs.copyFile(readmeTemplate, path.join(destination, 'README.md'));
+  }
 }
 
 async function runGitClone(url, destination) {
@@ -388,12 +419,13 @@ function createServer() {
         source: z.string().optional().describe('Local directory or Git URL. Defaults to AGENT_FRAMEWORK_HOME.'),
         projectRoot: z.string(),
         destination: z.string().default('.agent-framework'),
+        layout: z.enum(['lean', 'full']).default('lean').describe('lean (default): copy only the runtime folders (specs, skills, rules, tasks, workflows, agents, tools, memory, identity, mcp, etc.) plus a generated README.md. full: copy the entire source repository, including its own research docs and setup tooling.'),
         wire: z.enum(['none', 'agents', 'copilot', 'claude', 'qwen', 'gemini', 'cursor']).default('none'),
         withMcp: z.enum(['none', 'claude', 'vscode', 'both']).default('none').describe('Also generate a default MCP server config (.mcp.json and/or .vscode/mcp.json) if one does not already exist.'),
         dryRun: z.boolean().default(true)
       })
     },
-    async ({ source, projectRoot, destination, wire, withMcp, dryRun }) => {
+    async ({ source, projectRoot, destination, layout, wire, withMcp, dryRun }) => {
       const project = path.resolve(projectRoot);
       if (!(await exists(project))) throw new Error(`Project root does not exist: ${project}`);
 
@@ -404,6 +436,7 @@ function createServer() {
           source: source || process.env.AGENT_FRAMEWORK_HOME || null,
           projectRoot: project,
           destination: destinationRoot,
+          layout,
           wire,
           withMcp
         });
@@ -419,7 +452,7 @@ function createServer() {
         }
 
         await fs.mkdir(path.dirname(destinationRoot), { recursive: true });
-        await copyFramework(staged.root, destinationRoot);
+        await copyFramework(staged.root, destinationRoot, layout);
 
         const manifest = {
           framework_version: SERVER_VERSION,
@@ -427,6 +460,7 @@ function createServer() {
           source: source || process.env.AGENT_FRAMEWORK_HOME || staged.root,
           project_root: project,
           destination,
+          layout,
           install_method: 'mcp-copy-no-nested-git'
         };
         await fs.writeFile(path.join(destinationRoot, '.agent-framework-install.json'), JSON.stringify(manifest, null, 2) + '\n');

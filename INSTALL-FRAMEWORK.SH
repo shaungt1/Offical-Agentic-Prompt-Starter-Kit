@@ -18,10 +18,14 @@ Commands:
             Prints a suggested FRAMEWORK_ROOT so a human or an agent can choose without guessing.
 
 Options:
-  --source <path-or-git-url>   Framework source. Defaults to the parent of this script.
+  --source <path-or-git-url>   Framework source. Defaults to this script's own directory.
   --target <project-root>      Target project. Defaults to current directory.
   --destination <path>         Destination relative to target. Default: .agent-framework
   --admin-local                Destination becomes .admin-local/shared_toolbox/agent-control-framework
+  --layout <lean|full>         lean (default): copy only the runtime folders (specs, skills, rules,
+                                tasks, workflows, agents, tools, memory, identity, mcp, etc.) plus a
+                                generated README.md describing them. full: copy the entire source
+                                repository, including its own research docs and setup tooling.
   --wire <type>                Wire pointer into: agents|copilot|claude|qwen|gemini|cursor|none
   --with-mcp <target>          Also generate a default MCP server config if one doesn't already exist:
                                 claude (.mcp.json), vscode (.vscode/mcp.json), both, or none (default: none)
@@ -32,6 +36,7 @@ Options:
 Examples:
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents --with-mcp both
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents --with-mcp claude
+  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --layout full --wire agents
   sh INSTALL-FRAMEWORK.SH update --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git --target ../my-project
 EOF
 }
@@ -49,7 +54,7 @@ case "$command" in
 esac
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-default_source=$(CDPATH= cd -- "$script_dir/.." && pwd)
+default_source="$script_dir"
 
 source_value="$default_source"
 target="$(pwd)"
@@ -59,6 +64,9 @@ with_mcp="none"
 backup="yes"
 dry_run="no"
 admin_local="no"
+layout="lean"
+
+LEAN_FOLDERS="agent-specifications agents emulation identity instructions mcp memory modes plans prompt_engineering rules skills state task telemetry tools workflows"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -66,6 +74,7 @@ while [ "$#" -gt 0 ]; do
     --target) target="$2"; shift 2 ;;
     --destination) destination="$2"; shift 2 ;;
     --admin-local) admin_local="yes"; shift ;;
+    --layout) layout="$2"; shift 2 ;;
     --wire) wire="$2"; shift 2 ;;
     --with-mcp) with_mcp="$2"; shift 2 ;;
     --no-backup) backup="no"; shift ;;
@@ -74,6 +83,11 @@ while [ "$#" -gt 0 ]; do
     *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
   esac
 done
+
+case "$layout" in
+  lean|full) ;;
+  *) echo "Unknown --layout value: $layout (expected lean or full)" >&2; exit 10 ;;
+esac
 
 if [ "$admin_local" = "yes" ]; then
   destination=".admin-local/shared_toolbox/agent-control-framework"
@@ -243,12 +257,36 @@ else
 fi
 
 if [ "$dry_run" = "yes" ]; then
-  echo "[DRY-RUN] Copy framework from:"
+  echo "[DRY-RUN] Copy framework ($layout layout) from:"
   echo "  $staged_source"
   echo "to:"
   echo "  $dest_abs"
+elif [ "$layout" = "lean" ]; then
+  # Copy only the runtime folders an agent actually needs, plus .gitignore, then drop in the
+  # generated README describing them. Excludes this repo's own research docs and setup tooling.
+  lean_items=""
+  for item in .gitignore $LEAN_FOLDERS; do
+    if [ -e "$staged_source/$item" ]; then
+      lean_items="$lean_items $item"
+    fi
+  done
+  (
+    cd "$staged_source"
+    tar -cf - \
+      --exclude='.git' \
+      --exclude='node_modules' \
+      --exclude='.DS_Store' \
+      --exclude='*.zip' \
+      $lean_items
+  ) | (
+    cd "$tmp_payload"
+    tar -xf -
+  )
+  if [ -f "$staged_source/AGENT_FOLDER_README_TEMPLATE.md" ]; then
+    cp "$staged_source/AGENT_FOLDER_README_TEMPLATE.md" "$tmp_payload/README.md"
+  fi
 else
-  # Copy source to a clean staging directory while dropping source-control/runtime junk.
+  # Full layout: copy the entire source repository while dropping source-control/runtime junk.
   (
     cd "$staged_source"
     tar -cf - \
@@ -429,7 +467,16 @@ if [ "$dry_run" = "yes" ]; then
   echo "Dry run complete."
 else
   echo "Validation:"
-  required_files="
+  if [ "$layout" = "lean" ]; then
+    required_files="
+README.md
+agent-specifications/specs/skill.specification.md
+skills/SKILLS.md
+rules/RULES.md
+task/TASKS.md
+"
+  else
+    required_files="
 README.md
 agent-specifications/specs/skill.specification.md
 skills/SKILLS.md
@@ -438,6 +485,7 @@ task/TASKS.md
 AGENT-SETUP.INSTRUCTIONS.md
 MIGRATION.INSTRUCTIONS.md
 "
+  fi
   failed="no"
   echo "$required_files" | while IFS= read -r f; do
     [ -z "$f" ] && continue

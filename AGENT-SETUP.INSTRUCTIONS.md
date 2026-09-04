@@ -129,14 +129,17 @@ sh <SOURCE>/INSTALL-FRAMEWORK.SH install \
   --source <SOURCE> \
   --target <PROJECT_ROOT> \
   --destination <DESTINATION> \
+  --layout lean \
   --with-mcp both
 ```
+
+`--layout lean` (the default) copies only the runtime folders — `agent-specifications/`, `agents/`, `emulation/`, `identity/`, `instructions/`, `mcp/`, `memory/`, `modes/`, `plans/`, `prompt_engineering/`, `rules/`, `skills/`, `state/`, `task/`, `telemetry/`, `tools/`, `workflows/`, and `.gitignore` — plus a generated `README.md` at `<DESTINATION>` root that maps every one of those folders to its manifest and governing specification. This upstream repository's own research documents, setup guides, and `INSTALL-FRAMEWORK.SH` itself are deliberately **not** copied into consuming projects; they stay in the source repository. Use `--layout full` only when the consuming project genuinely needs the complete upstream repository, including its own documentation about itself.
 
 `--with-mcp claude|vscode|both` additionally writes a default `.mcp.json` and/or `.vscode/mcp.json` pointing at the newly installed `mcp/mcp-server/`, but only if the target file doesn't already exist or doesn't already reference this framework's server — it will never silently overwrite a project's existing MCP configuration.
 
 ### MCP
 
-Use the framework MCP server's install/update tool (`framework_install_or_update`), which accepts the same `withMcp` option.
+Use the framework MCP server's install/update tool (`framework_install_or_update`), which accepts the same `layout` and `withMcp` options.
 
 ### Manual
 

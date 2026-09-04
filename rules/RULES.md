@@ -143,16 +143,15 @@ Some rules belong to a memory subsystem rather than the general project-rule col
 
 ```text
 memory/
-├── episodic/
-│   └── rules/                       # Episodic-memory-specific rules
+├── MEMORY_INDEX.md                  # Episodic memory log (behavior defined inline in the file)
 └── implicit/
-    └── rules/                       # Implicit-memory-specific rules
+    └── implicit-memory.instructions.md   # Implicit-memory rules/behavior
 ```
 
 | Rule Domain | Purpose | Governing Specification | Expected Location |
 |---|---|---|---|
-| Episodic memory rules | Govern capture, retention, interpretation, consolidation, or use of event/session memory. | `agent-specifications/specs/episodic-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/episodic/rules/` or the project-defined episodic-memory rules location |
-| Implicit memory rules | Govern learned preferences, tendencies, inferred patterns, promotion thresholds, or use of implicit memory. | `agent-specifications/specs/implicit-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/implicit/rules/` or the project-defined implicit-memory rules location |
+| Episodic memory rules | Govern when to record an explicit user statement, how often to check it, and how entries are added/superseded. | `agent-specifications/specs/episodic-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/MEMORY_INDEX.md` (behavior defined inline in that file) |
+| Implicit memory rules | Govern learned preferences, tendencies, inferred patterns, promotion thresholds, or use of implicit memory. | `agent-specifications/specs/implicit-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/implicit/implicit-memory.instructions.md` |
 
 Memory-scoped rules should **not be duplicated** into the ordinary Rule Manifest merely to make them visible. Instead, keep them indexed by their owning memory subsystem and maintain the cross-reference above. If the project's memory specifications define a different location, those specifications take precedence for storage.
 
