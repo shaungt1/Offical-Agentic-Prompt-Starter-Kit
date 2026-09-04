@@ -5,56 +5,235 @@ version: 0.4.0
 status: active
 ---
 
-# Agent Control Framework
+# Offical-Agentic-Prompt-Starter-Kit — Agent Control Framework
+
+**This is the complete map of this framework.** Read it once per conversation and hold it in context — you do not need to re-read it again unless your context gets compacted or summarized. It tells you what every folder is, what's in it, its version, and how to use it. Nothing below is optional background reading; it is the reference for the entire system.
 
 ## What This Is
 
-This folder is a **lean, runtime-ready copy** of the Offical-Agentic-Prompt-Starter-Kit — a vendor-neutral library of specifications, root manifests, and runtime instructions that lets AI coding agents (Claude Code, GitHub Copilot, Cursor, Gemini CLI, Qwen Code, and any other `AGENTS.md`-aware or MCP-capable agent) build and use skills, rules, tasks, workflows, agent roles, tools, memory, and identity consistently.
-
-It contains **only the folders an agent actually needs at runtime** — specifications, manifests, and instructions. It deliberately does not include this upstream project's own research papers, its install tooling, or its top-level setup guides; those live in the source repository, not in every project that installs this framework.
+A vendor-neutral library of specifications, root manifests, and runtime instructions that lets AI coding agents (Claude Code, GitHub Copilot, Cursor, Gemini CLI, Qwen Code, and any other `AGENTS.md`-aware or MCP-capable agent) build and use skills, rules, tasks, workflows, agent roles, tools, memory, and identity consistently — instead of one giant, ever-growing system prompt.
 
 **Source:** https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit
-**Framework version:** 0.4.0
-**Installed:** see the sibling `.agent-framework-install.json` in this same folder, if present, for the exact source and install timestamp
+**Folder version:** 0.4.0
 
-This folder is `FRAMEWORK_ROOT`. The project that installed it has its own `AGENTS.md` (or `CLAUDE.md`, `.github/copilot-instructions.md`, etc.) pointing here — that pointer file is separate from this folder and is not duplicated inside it.
+This folder is `FRAMEWORK_ROOT`. The project that installed it has its own `AGENTS.md` (or `CLAUDE.md`, `.github/copilot-instructions.md`, etc.) pointing here — that pointer file is separate and lives at the project root, not inside this folder.
 
-## The Golden Rule: Use the Specifications
+## Folder Overview
 
-**Before creating any new file in any folder below — a skill, a rule, a task, a workflow, an agent, a tool, an instruction set, anything — read the matching file under `agent-specifications/specs/` first.** Every artifact type in this framework has a normative specification that defines its required structure, frontmatter, and verification checklist. Do not invent a new shape for something that already has a spec. If you are not sure which spec applies, read `agent-specifications/specs/_README.md` — it indexes all of them.
+| Folder | Purpose |
+|---|---|
+| `agent-specifications/` | Authoring contract library — one specification per artifact type |
+| `agents/` | Agent / subagent role registry |
+| `emulation/` | Owner-model pipeline: observe → guard → optimize |
+| `identity/` | Agent identity / presentation |
+| `instructions/` | Reusable scoped instruction sets |
+| `mcp/` | Local stdio MCP server |
+| `memory/` | Episodic + implicit memory |
+| `modes/` | Triggered stance / output changes |
+| `plans/` | Instance-specific execution plans |
+| `prompt_engineering/` | Prompt-engineering framework library |
+| `rules/` | Behavioral rules manifest |
+| `skills/` | Skill / Skill Set / Capability manifest |
+| `state/` | Compact runtime-health model |
+| `task/` | Task / Task List routing |
+| `telemetry/` | Recurring session re-entry pattern |
+| `tools/` | Callable tool contracts |
+| `workflows/` | Reusable multi-step orchestration |
+| `.gitignore` | Ignore rules for this framework's own tooling |
 
-## Complete Folder Map
+**The golden rule, before you touch any folder below:** creating a new file in it means reading its Governing Specification first. Do not invent a new shape for something that already has one.
 
-| Folder | What it is | Root manifest / entry point | Governing specification | How to add something new |
-|---|---|---|---|---|
-| `agent-specifications/` | Authoring contract library | `agent-specifications/specs/_README.md` | — (this folder *is* the specification layer) | Only when defining a brand-new artifact type; follow `_specification-authoring.md` |
-| `agents/` | Agent / subagent role registry | `agents/AGENTS.md` | `agent-specifications/specs/agent.specification.md` | Add a role entry to the manifest, then create the agent file per spec |
-| `emulation/` | Owner-model pipeline (observe → guard → optimize) | `emulation/EMULATION.MANIFEST.md` | `emulation-manifest.specification.md`, `observation.specification.md`, `guardian.specification.md`, `optimization.specification.md` | Extend the manifest and the relevant instruction file; it learns, it does not invent permissions |
-| `identity/` | Agent identity / presentation | `identity/IDENTITY.md` | `agent-specifications/specs/identity.specification.md` | Edit directly — this is a single stable definition, not a growing collection |
-| `instructions/` | Reusable scoped instruction sets | `instructions/INSTRUCTIONS.md` | `agent-specifications/specs/instructions.specification.md` | Add the instruction file, then add its manifest row |
-| `mcp/` | Local stdio MCP server | `mcp/mcp-server/README.md` | `agent-specifications/specs/mcp.specification.md` | See the server's own README before modifying its tools |
-| `memory/` | Episodic + implicit memory | `memory/MEMORY.md` | `episodic-memory.specification.md`, `implicit-memory.specification.md` | Episodic: add a row to `memory/MEMORY_INDEX.md`. Implicit: follow `memory/implicit/implicit-memory.instructions.md` |
-| `modes/` | Triggered stance/output changes | `modes/MODES.md` | `agent-specifications/specs/mode.specification.md` | Add the mode file, then add its manifest row |
-| `plans/` | Instance-specific execution plans | `plans/PLANS.md` | `agent-specifications/specs/plan.specification.md` | One plan per concrete effort; not a reusable procedure (that's a workflow) |
-| `prompt_engineering/` | Prompt-engineering framework library | `prompt_engineering/prompt-engineering.skill.md` | `agent-specifications/specs/prompt.specification.md` | Add a framework entry to the compendium volumes and index it in the skill's routing table |
-| `rules/` | Behavioral rules manifest | `rules/RULES.md` | `agent-specifications/specs/rules.specification.md` | Add the rule, then add its manifest row; do not duplicate an existing rule |
-| `skills/` | Skill / Skill Set / Capability manifest | `skills/SKILLS.md` | `agent-specifications/specs/skill.specification.md` (+ `skillset.specification.md`, `capability.specification.md`) | Create `skills/<name>/SKILL.md` per spec, then add the manifest row — see the map's own creation flow |
-| `state/` | Compact runtime-health model | `state/AURA.STATE.md` | — (see `agent-specifications/specs/` for related emulation/heartbeat specs) | Edit in place; never fabricate telemetry no tool actually supplied |
-| `task/` | Task / Task List routing | `task/TASKS.md` + `task/task-management.instructions.md` | `agent-specifications/specs/task.specification.md` | Follow `task-management.instructions.md` for *where* tasks live; follow the spec for their structure |
-| `telemetry/` | Recurring session re-entry pattern | `telemetry/HEARTBEAT.md` | `agent-specifications/specs/heartbeat.specification.md` | Edit in place; this is a same-context pattern, not an independent cron job |
-| `tools/` | Callable tool contracts | `tools/TOOLS.md` | `agent-specifications/specs/tool.specification.md` | Add the tool contract, then add its manifest row |
-| `workflows/` | Reusable multi-step orchestration | `workflows/WORKFLOWS.md` | `agent-specifications/specs/workflow.specification.md` | Add the workflow file, then add its manifest row |
-| `.gitignore` | Ignore rules for this framework's own tooling (e.g. `mcp/mcp-server/node_modules/`) | — | — | Extend if you add more managed tooling with build artifacts |
+---
 
-## How To Use This From a Consuming Project
+## `agent-specifications/`
 
-1. This folder is referenced from the project's own committed or private control file (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, etc.) via a pointer block — that pointer lives at the project root, not in here.
-2. Load only what the current task needs. Do not recursively load every file in this folder on every turn.
-3. Check the applicable root manifest above before creating a duplicate artifact.
-4. Follow the applicable specification before creating or materially redesigning an artifact.
-5. **Check `memory/MEMORY_INDEX.md` on (almost) every request** — if the user has explicitly stated a preference or standing instruction, it is recorded there and must be honored.
-6. Keep this folder as a managed upstream copy. Put project-specific customizations in the project's own chosen locations (see `task-management.instructions.md`'s location-resolution logic as the model to follow for any other project-specific content) rather than editing this copy directly — that keeps future framework updates painless, and, if this copy lives in a shared Admin Local Toolbox, it keeps one project's customizations from leaking into every other project that shares it.
+| Field | Value |
+|---|---|
+| Purpose | The authoring contract library itself — defines how every other artifact type must be built |
+| Entry point | `agent-specifications/specs/_README.md` |
+| Governing specification | — (this folder *is* the specification layer) |
+| Version | 0.1.0 |
+| How to use | Read the matching `*.specification.md` before creating or redesigning any artifact anywhere in this framework |
+| Adding something new | Only for a brand-new artifact *type*; follow `_specification-authoring.md` |
 
-## Updating
+## `agents/`
 
-If this folder was installed by `INSTALL-FRAMEWORK.SH` or the framework's MCP server, re-run the same install/update command with the same `--source` to refresh it — the existing copy is backed up first. Check `.agent-framework-install.json` next to this README (if present) for the recorded source and version.
+| Field | Value |
+|---|---|
+| Purpose | Registry of agent / subagent roles, tools, permissions, and delegation boundaries |
+| Entry point | `agents/AGENTS.md` |
+| Governing specification | `agent-specifications/specs/agent.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for an existing role before defining a new one |
+| Adding something new | Add a manifest row, then create the agent file per spec |
+
+## `emulation/`
+
+| Field | Value |
+|---|---|
+| Purpose | Owner-model pipeline: learns from evidence, filters it, turns it into suggestions — never invents permissions |
+| Entry point | `emulation/EMULATION.MANIFEST.md` |
+| Governing specification | `emulation-manifest.specification.md`, `observation.specification.md`, `guardian.specification.md`, `optimization.specification.md` |
+| Version | 0.2.0 |
+| How to use | Observation → Guardian → Optimization, in that order |
+| Adding something new | Extend the manifest and the relevant instruction file (`OBSERVATION`/`GUARDIAN`/`OPTIMIZATION.INSTRUCTIONS.md`) |
+
+## `identity/`
+
+| Field | Value |
+|---|---|
+| Purpose | Stable agent identity and presentation |
+| Entry point | `identity/IDENTITY.md` |
+| Governing specification | `agent-specifications/specs/identity.specification.md` |
+| Version | 0.1.0 |
+| How to use | Read once; it rarely changes |
+| Adding something new | Edit in place — this is a single definition, not a growing collection |
+
+## `instructions/`
+
+| Field | Value |
+|---|---|
+| Purpose | Reusable scoped operating guidance that isn't a hard rule or a one-off task |
+| Entry point | `instructions/INSTRUCTIONS.md` |
+| Governing specification | `agent-specifications/specs/instructions.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for existing scoped guidance before creating overlapping instructions |
+| Adding something new | Add the instruction file, then add its manifest row. See also `instructions/capability-skillset-instructions/` |
+
+## `mcp/`
+
+| Field | Value |
+|---|---|
+| Purpose | Local stdio MCP server exposing this framework's install/inspect/wire tooling to any MCP-capable agent |
+| Entry point | `mcp/mcp-server/README.md` |
+| Governing specification | `agent-specifications/specs/mcp.specification.md` |
+| Version | 0.4.0 |
+| How to use | `framework_detect`, `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, `framework_write_migration_plan` |
+| Adding something new | Read the server's own README before modifying its tools |
+
+## `memory/`
+
+| Field | Value |
+|---|---|
+| Purpose | Two systems: episodic (explicit user statements) and implicit (agent-inferred patterns) |
+| Entry point | `memory/MEMORY.md` |
+| Governing specification | `episodic-memory.specification.md`, `implicit-memory.specification.md` |
+| Version | 0.1.0 |
+| How to use | Read `memory/MEMORY_INDEX.md` and `memory/implicit/implicit.memory.md` once at the start of a conversation and hold them in context; re-read only after a context compaction |
+| Adding something new | Episodic: add a row to `memory/MEMORY_INDEX.md` the moment the user states something explicit. Implicit: follow `memory/implicit/implicit-memory.instructions.md` |
+
+## `modes/`
+
+| Field | Value |
+|---|---|
+| Purpose | Triggered stance / output changes with no execution of their own |
+| Entry point | `modes/MODES.md` |
+| Governing specification | `agent-specifications/specs/mode.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for an existing mode before defining a new one |
+| Adding something new | Add the mode file, then add its manifest row |
+
+## `plans/`
+
+| Field | Value |
+|---|---|
+| Purpose | Instance-specific execution sequencing for one concrete piece of work |
+| Entry point | `plans/PLANS.md` |
+| Governing specification | `agent-specifications/specs/plan.specification.md` |
+| Version | 0.1.0 |
+| How to use | One plan per concrete effort — not a reusable procedure (that's a workflow) |
+| Adding something new | Add the plan file, then add its manifest row |
+
+## `prompt_engineering/`
+
+| Field | Value |
+|---|---|
+| Purpose | Router over a two-volume compendium of 49 prompt-engineering frameworks |
+| Entry point | `prompt_engineering/prompt-engineering.skill.md` |
+| Governing specification | `agent-specifications/specs/prompt.specification.md` |
+| Version | 1.0.0 |
+| How to use | Identify the failure mode/goal, pick the matching framework from the skill's index table, apply its template from the source volume |
+| Adding something new | Add a framework entry to the relevant volume and index it in the skill's routing table |
+
+## `rules/`
+
+| Field | Value |
+|---|---|
+| Purpose | Ongoing behavioral constraints and requirements |
+| Entry point | `rules/RULES.md` |
+| Governing specification | `agent-specifications/specs/rules.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for an applicable rule before acting in an area it might govern |
+| Adding something new | Add the rule, then add its manifest row — never duplicate an existing rule |
+
+## `skills/`
+
+| Field | Value |
+|---|---|
+| Purpose | Reusable, focused procedures — plus the Skill Set / Capability composition layers above them |
+| Entry point | `skills/SKILLS.md` |
+| Governing specification | `agent-specifications/specs/skill.specification.md` (+ `skillset.specification.md`, `capability.specification.md`) |
+| Version | 0.1.0 |
+| How to use | Search the manifest for an equivalent skill before creating a new one |
+| Adding something new | Create `skills/<name>/SKILL.md` per spec, then add the manifest row |
+
+## `state/`
+
+| Field | Value |
+|---|---|
+| Purpose | Compact, honest runtime-health signal — context capacity, constraint integrity, execution stability |
+| Entry point | `state/AURA.STATE.md` |
+| Governing specification | — (related to the emulation/heartbeat specs) |
+| Version | 0.1.0 |
+| How to use | Read as a qualitative signal, not a precise metric |
+| Adding something new | Edit in place; never fabricate telemetry no tool actually supplied |
+
+## `task/`
+
+| Field | Value |
+|---|---|
+| Purpose | Routing manifest and instructions for Task / Task List placement, lifecycle, and completion — not where task files themselves live |
+| Entry point | `task/TASKS.md` + `task/task-management.instructions.md` |
+| Governing specification | `agent-specifications/specs/task.specification.md` |
+| Version | 0.1.0 |
+| How to use | Follow `task-management.instructions.md` for *where* a task belongs (`/_tasks/`, `.admin-local/Tasks/`, etc.) |
+| Adding something new | Follow the spec for structure; add the Task List to the manifest |
+
+## `telemetry/`
+
+| Field | Value |
+|---|---|
+| Purpose | Recurring same-context session re-entry pattern (not an independent cron job) |
+| Entry point | `telemetry/HEARTBEAT.md` |
+| Governing specification | `agent-specifications/specs/heartbeat.specification.md` |
+| Version | 0.1.0 |
+| How to use | Edit in place |
+| Adding something new | Edit in place — this is one pattern, not a growing collection |
+
+## `tools/`
+
+| Field | Value |
+|---|---|
+| Purpose | Callable tool contracts: inputs, outputs, side effects |
+| Entry point | `tools/TOOLS.md` |
+| Governing specification | `agent-specifications/specs/tool.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for an existing contract before defining a new one |
+| Adding something new | Add the tool contract, then add its manifest row |
+
+## `workflows/`
+
+| Field | Value |
+|---|---|
+| Purpose | Reusable multi-step orchestration — the repeatable process, not one instance of running it (that's a plan) |
+| Entry point | `workflows/WORKFLOWS.md` |
+| Governing specification | `agent-specifications/specs/workflow.specification.md` |
+| Version | 0.1.0 |
+| How to use | Check the manifest for an existing workflow before defining a new one |
+| Adding something new | Add the workflow file, then add its manifest row |
+
+---
+
+## Updating This Folder
+
+If this folder was installed by `INSTALL-FRAMEWORK.SH` or the framework's MCP server, re-run the same install/update command with the same `--source` to refresh it — the existing copy is backed up first. Check the sibling `.agent-framework-install.json` in this same folder, if present, for the recorded source and install timestamp.
