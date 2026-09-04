@@ -16,7 +16,7 @@ The server is intentionally local and filesystem-oriented.
 | Tool | Purpose | Destructive? |
 |---|---|---|
 | `framework_inspect` | Validate a framework root and show required-file status | No |
-| `framework_install_or_update` | Install/copy a local or Git-hosted framework without nested `.git`; backs up existing destination | Replaces managed destination after backup |
+| `framework_install_or_update` | Install/copy a local or Git-hosted framework without nested `.git`; backs up existing destination; optionally writes a default `.mcp.json`/`.vscode/mcp.json` via `withMcp` if one doesn't already exist | Replaces managed destination after backup |
 | `framework_wire_agent` | Add the small framework pointer to an agent-control file | Appends only |
 | `framework_write_migration_plan` | Inventory existing agent-control files and generate `MIGRATION-PLAN.md` | No source files moved/deleted |
 

@@ -105,12 +105,15 @@ Preferred options:
 sh <SOURCE>/INSTALL-FRAMEWORK.SH install \
   --source <SOURCE> \
   --target <PROJECT_ROOT> \
-  --destination <DESTINATION>
+  --destination <DESTINATION> \
+  --with-mcp both
 ```
+
+`--with-mcp claude|vscode|both` additionally writes a default `.mcp.json` and/or `.vscode/mcp.json` pointing at the newly installed `mcp/mcp-server/`, but only if the target file doesn't already exist or doesn't already reference this framework's server — it will never silently overwrite a project's existing MCP configuration.
 
 ### MCP
 
-Use the framework MCP server's install/update tool.
+Use the framework MCP server's install/update tool (`framework_install_or_update`), which accepts the same `withMcp` option.
 
 ### Manual
 

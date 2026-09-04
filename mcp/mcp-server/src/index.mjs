@@ -339,10 +339,11 @@ function createServer() {
         projectRoot: z.string(),
         destination: z.string().default('.agent-framework'),
         wire: z.enum(['none', 'agents', 'copilot', 'claude', 'qwen', 'gemini', 'cursor']).default('none'),
+        withMcp: z.enum(['none', 'claude', 'vscode', 'both']).default('none').describe('Also generate a default MCP server config (.mcp.json and/or .vscode/mcp.json) if one does not already exist.'),
         dryRun: z.boolean().default(true)
       })
     },
-    async ({ source, projectRoot, destination, wire, dryRun }) => {
+    async ({ source, projectRoot, destination, wire, withMcp, dryRun }) => {
       const project = path.resolve(projectRoot);
       if (!(await exists(project))) throw new Error(`Project root does not exist: ${project}`);
 
@@ -353,7 +354,8 @@ function createServer() {
           source: source || process.env.AGENT_FRAMEWORK_HOME || null,
           projectRoot: project,
           destination: destinationRoot,
-          wire
+          wire,
+          withMcp
         });
       }
 
@@ -382,11 +384,15 @@ function createServer() {
         let wired = null;
         if (wire !== 'none') wired = await wirePointer(project, destination, wire);
 
+        let mcpConfig = null;
+        if (withMcp !== 'none') mcpConfig = await writeMcpConfig(project, destination, withMcp);
+
         return textResult({
           installed: true,
           destination: destinationRoot,
           backup,
           wired,
+          mcpConfig,
           validation: await frameworkSummary(destinationRoot)
         });
       } finally {

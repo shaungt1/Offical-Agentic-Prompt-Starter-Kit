@@ -258,6 +258,19 @@ sh INSTALL-FRAMEWORK.SH install \
   --wire agents
 ```
 
+### Also Generate a Default MCP Config
+
+Add `--with-mcp claude` (writes `.mcp.json`), `--with-mcp vscode` (writes `.vscode/mcp.json`), or `--with-mcp both`. This only writes the file if one doesn't already exist or doesn't already reference the framework's server — it never overwrites unrelated MCP config:
+
+```bash
+sh INSTALL-FRAMEWORK.SH install \
+  --source . \
+  --target /path/to/your-project \
+  --admin-local \
+  --wire agents \
+  --with-mcp both
+```
+
 ### Install Directly From GitHub
 
 You do not need a local copy first. Point `--source` at the GitHub repository and the script clones it for you:
@@ -297,10 +310,10 @@ mcp/mcp-server/
 
 It exposes tools that an MCP-capable agent can use to:
 
-- inspect a framework installation;
-- copy/install or update the framework safely;
-- wire an agent-control file to the framework;
-- inventory existing agent-control artifacts and write a migration plan.
+- inspect a framework installation (`framework_inspect`);
+- copy/install or update the framework safely, optionally generating a default `.mcp.json` and/or `.vscode/mcp.json` via `withMcp: 'claude' | 'vscode' | 'both'` if one doesn't already exist (`framework_install_or_update`);
+- wire an agent-control file to the framework (`framework_wire_agent`);
+- inventory existing agent-control artifacts and write a migration plan (`framework_write_migration_plan`).
 
 The MCP server uses **stdio**, so it runs locally as a child process of the MCP host.
 
