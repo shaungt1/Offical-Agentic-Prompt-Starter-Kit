@@ -48,7 +48,7 @@ It is not a claim that the agent has become the owner, has consciousness, or pos
                                     │
                                     ▼
                     ┌────────────────────────────────┐
-                    │  OBSERVATION.INSTRUCTIONS.MD   │
+                    │  OBSERVATION.INSTRUCTIONS.md   │
                     │                                │
                     │ Learn what is happening,       │
                     │ what it means, and what it     │
@@ -57,7 +57,7 @@ It is not a claim that the agent has become the owner, has consciousness, or pos
                                     │
                                     ▼
                     ┌────────────────────────────────┐
-                    │   GUARDIAN.INSTRUCTIONS.MD     │
+                    │   GUARDIAN.INSTRUCTIONS.md     │
                     │                                │
                     │ Decide what should be          │
                     │ preserved, filtered, bounded,  │
@@ -66,7 +66,7 @@ It is not a claim that the agent has become the owner, has consciousness, or pos
                                     │
                                     ▼
                     ┌────────────────────────────────┐
-                    │ OPTIMIZATION.INSTRUCTIONS.MD   │
+                    │ OPTIMIZATION.INSTRUCTIONS.md   │
                     │                                │
                     │ Turn the owner model into      │
                     │ better decisions, workflows,   │
@@ -84,9 +84,9 @@ It is not a claim that the agent has become the owner, has consciousness, or pos
 
 | Order | Module | Required File | Governing Specification | Primary Responsibility | May Persist? | May Execute? |
 |---:|---|---|---|---|---|---|
-| 1 | Observation | `OBSERVATION.INSTRUCTIONS.MD` | `agent-specifications/specs/observation.specification.md` | Interpret authorized evidence and produce explicit owner-model observations. | Candidate memories only | No |
-| 2 | Guardian | `GUARDIAN.INSTRUCTIONS.MD` | `agent-specifications/specs/guardian.specification.md` | Filter observations and proposed representation through values, audience, privacy, reputation, and best-self boundaries. | Guardian preferences/boundaries when warranted | No |
-| 3 | Optimization | `OPTIMIZATION.INSTRUCTIONS.MD` | `agent-specifications/specs/optimization.specification.md` | Use guarded observations to detect friction, propose improvements, and ask high-value learning questions. | Optimization patterns and answered probes | Proposal only; execution requires normal authority |
+| 1 | Observation | `OBSERVATION.INSTRUCTIONS.md` | `agent-specifications/specs/observation.specification.md` | Interpret authorized evidence and produce explicit owner-model observations. | Candidate memories only | No |
+| 2 | Guardian | `GUARDIAN.INSTRUCTIONS.md` | `agent-specifications/specs/guardian.specification.md` | Filter observations and proposed representation through values, audience, privacy, reputation, and best-self boundaries. | Guardian preferences/boundaries when warranted | No |
+| 3 | Optimization | `OPTIMIZATION.INSTRUCTIONS.md` | `agent-specifications/specs/optimization.specification.md` | Use guarded observations to detect friction, propose improvements, and ask high-value learning questions. | Optimization patterns and answered probes | Proposal only; execution requires normal authority |
 
 ## WHEN TO USE THE EMULATION FRAMEWORK
 

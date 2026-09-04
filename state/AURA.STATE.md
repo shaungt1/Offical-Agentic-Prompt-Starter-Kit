@@ -49,7 +49,7 @@ Aura SHOULD live as one mutable state file:
 
 ```text
 STATE/
-└── AURA.STATE.MD
+└── AURA.STATE.md
 ```
 
 ## THE THREE AURA DIMENSIONS
@@ -287,7 +287,7 @@ A Dream/consolidation mechanism MAY implement this recovery, but Aura does not r
 
 ## HEARTBEAT INTEGRATION
 
-`TELEMETRY/HEARTBEAT.MD` and Aura are complementary.
+`TELEMETRY/HEARTBEAT.md` and Aura are complementary.
 
 ```text
 HEARTBEAT

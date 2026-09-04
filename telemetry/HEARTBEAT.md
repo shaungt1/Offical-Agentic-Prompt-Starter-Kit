@@ -105,7 +105,7 @@ Before running the directive:
 - Confirm the agent is at a safe execution boundary.
 - Yield to queued direct user input.
 - Check whether the Heartbeat has expired or its completion condition is already satisfied.
-- Check the current Aura state when `STATE/AURA.STATE.MD` is available. A `FRACTURED` state blocks nonessential Heartbeat execution until the blocking condition is resolved.
+- Check the current Aura state when `STATE/AURA.STATE.md` is available. A `FRACTURED` state blocks nonessential Heartbeat execution until the blocking condition is resolved.
 
 ### 2. EXECUTE THE BOUNDED CHECK
 

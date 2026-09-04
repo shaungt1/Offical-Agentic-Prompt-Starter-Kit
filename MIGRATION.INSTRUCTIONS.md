@@ -158,20 +158,20 @@ If one file contains several unrelated artifact types, do not automatically spli
 
 | Existing Content | Canonical Root |
 |---|---|
-| Skills / Skill Sets / Capabilities | `skills/` + `skills/SKILLS.MD` |
-| Rules | `rules/` + `rules/RULES.MD` |
-| Modes | `modes/` + `modes/MODES.MD` |
-| Reusable Instructions | `instructions/` + `instructions/INSTRUCTIONS.MD` |
-| Tasks / Task Lists | `task/` + `task/TASKS.MD` |
-| Plans | `plans/` + `plans/PLANS.MD` |
-| Workflows | `workflows/` + `workflows/WORKFLOWS.MD` |
-| Agents / subagents / overrides | `agents/` + `agents/AGENTS.MD` |
-| Tool definitions | `tools/` + `tools/TOOLS.MD` |
-| Episodic / Implicit memory | `memory/` + `memory/MEMORY.MD` |
-| Identity | `identity/` + `identity/IDENTITY.MD` |
+| Skills / Skill Sets / Capabilities | `skills/` + `skills/SKILLS.md` |
+| Rules | `rules/` + `rules/RULES.md` |
+| Modes | `modes/` + `modes/MODES.md` |
+| Reusable Instructions | `instructions/` + `instructions/INSTRUCTIONS.md` |
+| Tasks / Task Lists | `task/` + `task/TASKS.md` |
+| Plans | `plans/` + `plans/PLANS.md` |
+| Workflows | `workflows/` + `workflows/WORKFLOWS.md` |
+| Agents / subagents / overrides | `agents/` + `agents/AGENTS.md` |
+| Tool definitions | `tools/` + `tools/TOOLS.md` |
+| Episodic / Implicit memory | `memory/` + `memory/MEMORY.md` |
+| Identity | `identity/` + `identity/IDENTITY.md` |
 | Emulation | `emulation/` |
-| Heartbeat | `telemetry/HEARTBEAT.MD` |
-| Aura | `state/AURA.STATE.MD` |
+| Heartbeat | `telemetry/HEARTBEAT.md` |
+| Aura | `state/AURA.STATE.md` |
 | Prompt frameworks | `prompt_engineering/` or project-selected prompt root |
 | Research / proposals | `documentation/` |
 
@@ -216,7 +216,7 @@ Action: keep it, minimize duplication, and add a pointer to canonical resources.
 Create:
 
 ```text
-MIGRATION-PLAN.MD
+MIGRATION-PLAN.md
 ```
 
 or another user-approved temporary location.
@@ -250,7 +250,7 @@ A canonical Skill should live in its own folder:
 
 ```text
 <skill-name>/
-└── SKILL.MD
+└── SKILL.md
 ```
 
 Follow `skill.specification.md`.
@@ -267,7 +267,7 @@ CAPABILITY
           └── SKILL
 ```
 
-Update all three manifests in `skills/SKILLS.MD`.
+Update all three manifests in `skills/SKILLS.md`.
 
 ### Tasks
 
@@ -279,7 +279,7 @@ Follow both:
 
 ```text
 task.specification.md
-task/TASK-MANAGEMENT.INSTRUCTIONS.MD
+task/TASK-MANAGEMENT.INSTRUCTIONS.md
 ```
 
 ### Instructions / Rules
@@ -300,7 +300,7 @@ Preserve router/index behavior.
 
 Keep vendor custom-agent files in native discovery locations when required.
 
-Register the conceptual agent in the canonical `agents/AGENTS.MD` manifest when the project uses that registry.
+Register the conceptual agent in the canonical `agents/AGENTS.md` manifest when the project uses that registry.
 
 ### Workflows / Plans
 
@@ -316,7 +316,7 @@ Do not copy secrets or hardcoded credentials.
 
 Preserve host-native MCP configuration if needed.
 
-Register conceptual tools in `tools/TOOLS.MD` when appropriate.
+Register conceptual tools in `tools/TOOLS.md` when appropriate.
 
 ## PHASE 7 — APPLY SAFELY
 

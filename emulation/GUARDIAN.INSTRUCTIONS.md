@@ -11,7 +11,7 @@ metadata:
   stage: guardian
   tags: [guardian, best-self, values, audience, privacy, reputation, emulation]
   specification_reference: "agent-specifications/specs/guardian.specification.md"
-  manifest_reference: "EMULATION.MANIFEST.MD"
+  manifest_reference: "EMULATION.MANIFEST.md"
 ---
 
 # GUARDIAN INSTRUCTIONS
@@ -106,7 +106,7 @@ It is an explicit set of owner-approved values, boundaries, duties, and represen
 
 Possible sources:
 
-- `SOUL.MD`;
+- `SOUL.md`;
 - project rules;
 - explicit user statements;
 - accepted Guardian decisions;

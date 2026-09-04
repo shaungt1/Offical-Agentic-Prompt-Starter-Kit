@@ -18,12 +18,12 @@ The server is intentionally local and filesystem-oriented.
 | `framework_inspect` | Validate a framework root and show required-file status | No |
 | `framework_install_or_update` | Install/copy a local or Git-hosted framework without nested `.git`; backs up existing destination | Replaces managed destination after backup |
 | `framework_wire_agent` | Add the small framework pointer to an agent-control file | Appends only |
-| `framework_write_migration_plan` | Inventory existing agent-control files and generate `MIGRATION-PLAN.MD` | No source files moved/deleted |
+| `framework_write_migration_plan` | Inventory existing agent-control files and generate `MIGRATION-PLAN.md` | No source files moved/deleted |
 
 The migration tool deliberately writes a **plan**, not an automatic bulk migration. Semantic migration still follows:
 
 ```text
-../../MIGRATION.INSTRUCTIONS.MD
+../../MIGRATION.INSTRUCTIONS.md
 ```
 
 ## REQUIREMENTS
@@ -37,6 +37,9 @@ The server uses the current split MCP TypeScript/JavaScript server SDK package:
 ```text
 @modelcontextprotocol/server
 ```
+
+Built following the official MCP TypeScript server guide: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server#typescript
+General MCP overview: https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro
 
 ## INSTALL
 
@@ -163,7 +166,7 @@ The server:
 - does not transmit project data to an external service;
 - does not delete migration source files;
 - prevents the install destination from escaping the declared project root;
-- filters `.git/` and `node_modules/` from framework copies;
+- filters `.git/`, `node_modules/`, and `.admin-local/` from framework copies;
 - defaults install/update to `dryRun: true`;
 - backs up an existing managed destination before replacement.
 

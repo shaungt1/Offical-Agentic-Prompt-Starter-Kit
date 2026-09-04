@@ -148,12 +148,12 @@ Framework root: `<FRAMEWORK_ROOT>`
 
 When creating, modifying, discovering, or validating an agent-control artifact:
 
-1. Read `<FRAMEWORK_ROOT>/README.MD` when repository-level routing is needed.
+1. Read `<FRAMEWORK_ROOT>/README.md` when repository-level routing is needed.
 2. Read the applicable root manifest before creating a duplicate.
 3. Follow the corresponding specification under `<FRAMEWORK_ROOT>/agent-specifications/specs/`.
 4. Load only the documents relevant to the current task.
 5. Preserve vendor-native entry files when the runtime requires them.
-6. For existing customizations, follow `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.MD`.
+6. For existing customizations, follow `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.md`.
 
 <!-- END PORTABLE AGENT CONTROL FRAMEWORK -->
 ```
@@ -165,12 +165,12 @@ Do not paste the entire framework into `AGENTS.md`, `CLAUDE.md`, or another entr
 Verify that the agent can resolve:
 
 ```text
-<FRAMEWORK_ROOT>/README.MD
+<FRAMEWORK_ROOT>/README.md
 <FRAMEWORK_ROOT>/agent-specifications/specs/
-<FRAMEWORK_ROOT>/skills/SKILLS.MD
-<FRAMEWORK_ROOT>/rules/RULES.MD
-<FRAMEWORK_ROOT>/instructions/INSTRUCTIONS.MD
-<FRAMEWORK_ROOT>/task/TASKS.MD
+<FRAMEWORK_ROOT>/skills/SKILLS.md
+<FRAMEWORK_ROOT>/rules/RULES.md
+<FRAMEWORK_ROOT>/instructions/INSTRUCTIONS.md
+<FRAMEWORK_ROOT>/task/TASKS.md
 ```
 
 If any path is missing, stop and repair the installation or pointer before migrating existing content.
@@ -202,7 +202,7 @@ before creating vendor transformations.
 If existing agent-control content is present and the user wants it integrated, read:
 
 ```text
-MIGRATION.INSTRUCTIONS.MD
+MIGRATION.INSTRUCTIONS.md
 ```
 
 Perform a dry-run inventory first.

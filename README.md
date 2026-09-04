@@ -5,6 +5,37 @@ Opensource production-ready AI agent prompt template &amp; workspace kit for Cur
 
 ---
 
+## 🔗 Admin Local — Start Here
+
+**[Admin Local](https://marketplace.visualstudio.com/items?itemName=shaun-pritchard.admin-local)** is a free VS Code extension by Shaun Pritchard. It gives every repository a private, Git-safe `.admin-local/` workbench, and links that workbench to one shared, computer-wide **Toolbox** (`shared_toolbox/`) via a filesystem link. Install this framework into the Toolbox **once**, and every project you initialize with Admin Local can use it immediately — no per-project copying, no drift between projects.
+
+**Marketplace link:** https://marketplace.visualstudio.com/items?itemName=shaun-pritchard.admin-local
+
+- API keys, prompts, scripts, and this framework live in one centralized Toolbox shared across all your repositories.
+- `.admin-local/` is added to `.git/info/exclude`, so it never gets committed with application code.
+- Editing the framework in one project's Toolbox link updates it everywhere — no syncing.
+- Full walkthrough with setup steps: **[Section 2 — Recommended: Admin Local](#2-recommended-admin-local)**.
+
+**Don't use Admin Local?** Skip straight to **[Section 1 — Fastest Start](#1-fastest-start)** for the shell-script, MCP-server, or manual-copy install paths — all covered below, for both a **fresh install** and an **existing project** that already has its own agent-control files.
+
+**Tell your agent to do this for you.** Once your agent (Claude Code, Copilot, Cursor, etc.) can read this README — or once the local MCP server (§4) is connected — you can simply say:
+
+```text
+Go get the Offical-Agentic-Prompt-Starter-Kit from GitHub
+(https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git)
+and install it into this project.
+```
+
+or, if the MCP server is already wired in:
+
+```text
+Use the framework MCP tools to inspect, install, and wire this framework into the current project.
+```
+
+Either path works for a brand-new project or an existing one — see §16 for migrating an existing project's agent-control files instead of scattering copies.
+
+---
+
 ## 🚀 Overview
 The Agentic Prompt Starter Kit provides a standardized, multi-document context (MDC) architecture designed explicitly for modern AI coding assistants and agent loops (including Cursor, Claude Code, Windsurf, GitHub Copilot Workspace, and Model Context Protocol (MCP) clients).
 By splitting monolithic system prompts into highly optimized, localized files—such as rules.md, skills.md, identity.md, and tools.md—this architecture dramatically slashes token overhead and ensures your LLMs execute complex reasoning loops safely, without context dilution or code hallucination ([0:25](https://www.youtube.com/watch?v=bwvfdFWR1RI&t=25s)).
@@ -36,10 +67,10 @@ This repository implements the exact directory schema required for native AI con
 ```
 📂 Offical-Agentic-Prompt-Starter-Kit/
 │
-├── 📜 README.MD                             # Global workspace documentation
+├── 📜 README.md                             # Global workspace documentation
 ├── ⚙️ INSTALL-FRAMEWORK.SH                  # Automated ingestion & workspace setup script
-├── 📌 MIGRATION.INSTRUCTIONS.MD             # Scaling guide for integrating an existing project
-├── 📌 AGENT-SETUP.INSTRUCTIONS.MD           # Local IDE environment provisioning
+├── 📌 MIGRATION.INSTRUCTIONS.md             # Scaling guide for integrating an existing project
+├── 📌 AGENT-SETUP.INSTRUCTIONS.md           # Local IDE environment provisioning
 ├── 📝 CAPABILITY_SKILLSET_SKILL_COMPOSITION_MODEL.md
 ├── 📝 VENDOR_AGENT_CONTROL_FILE_IMPLEMENTATIONS.md
 ├── 📝 COMMON_AGENT_CONTROL_MARKDOWN_FILES.md
@@ -68,9 +99,9 @@ All of the above are top-level folders in this repository — see §8 for the co
 ---
 
 
-# 1. VS Code Model Context Protocol (MCP) Server
+## ⚙️ VS Code Model Context Protocol (MCP) Server
 
-This repository ships with a dedicated Node-based Agent-Control MCP Server at `mcp/mcp-server/`. Once added to your IDE, your LLM gains its own tools to inspect, install/update, wire, and plan migrations for the framework.
+This repository ships with a dedicated Node-based Agent-Control MCP Server at `mcp/mcp-server/`. Once added to your IDE, your LLM gains its own tools to inspect, install/update, wire, and plan migrations for the framework. Full setup, tool list, and security notes: **[Section 4 — Install or Manage With MCP](#4-install-or-manage-with-mcp)**.
 To register the MCP server in Cursor / VS Code Copilot / Claude Desktop:
 Add this to your local MCP settings configuration file:
 
@@ -88,7 +119,7 @@ Add this to your local MCP settings configuration file:
 }
 ```
 
-This allows the LLM to call the tools `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, and `framework_write_migration_plan` directly through your chat window. See `mcp/mcp-server/README.MD` for full details.
+This allows the LLM to call the tools `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, and `framework_write_migration_plan` directly through your chat window. See `mcp/mcp-server/README.md` for full details.
 
 ---
 
@@ -108,7 +139,7 @@ Load only the part needed for the current job.
 
 The repository gives an agent a stable place to answer questions such as:
 
-- What exactly is a **Skill**, and how should a new `SKILL.MD` be constructed?
+- What exactly is a **Skill**, and how should a new `SKILL.md` be constructed?
 - What is the difference between a **Skill Set** and a **Capability**?
 - Where are the active **Rules**, **Modes**, **Tasks**, **Workflows**, **Plans**, and **Tools**?
 - Which specification controls a new artifact?
@@ -138,7 +169,7 @@ PROJECT AGENT FILE
       │
       └── points to FRAMEWORK ROOT
                     │
-                    ├── README.MD
+                    ├── README.md
                     ├── root manifests
                     └── agent-specifications/specs/
 ```
@@ -165,7 +196,7 @@ my-project/
 ├── .admin-local/
 │   ├── shared_toolbox/
 │   │   └── agent-control-framework/
-│   │       ├── README.MD
+│   │       ├── README.md
 │   │       ├── agent-specifications/
 │   │       ├── skills/
 │   │       ├── rules/
@@ -227,13 +258,13 @@ sh INSTALL-FRAMEWORK.SH install \
   --wire agents
 ```
 
-### Install From the Future GitHub Repository
+### Install Directly From GitHub
 
-Once this project has its final repository URL:
+You do not need a local copy first. Point `--source` at the GitHub repository and the script clones it for you:
 
 ```bash
 sh INSTALL-FRAMEWORK.SH install \
-  --source https://github.com/<OWNER>/<REPOSITORY>.git \
+  --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git \
   --target /path/to/your-project \
   --destination .agent-framework \
   --wire agents
@@ -245,7 +276,7 @@ The script clones remote sources into a temporary directory and copies the frame
 
 ```bash
 sh INSTALL-FRAMEWORK.SH update \
-  --source https://github.com/<OWNER>/<REPOSITORY>.git \
+  --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git \
   --target /path/to/your-project \
   --destination .agent-framework
 ```
@@ -290,7 +321,7 @@ npx @modelcontextprotocol/inspector node src/index.mjs
 See:
 
 ```text
-mcp/mcp-server/README.MD
+mcp/mcp-server/README.md
 ```
 
 for VS Code configuration and operational details.
@@ -308,7 +339,7 @@ Do **not** leave this repository's `.git/` directory inside another Git reposito
 Instead:
 
 ```bash
-git clone --depth 1 https://github.com/<OWNER>/<REPOSITORY>.git /tmp/agent-framework
+git clone --depth 1 https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git /tmp/agent-framework
 rm -rf /tmp/agent-framework/.git
 cp -R /tmp/agent-framework /path/to/project/.agent-framework
 ```
@@ -331,7 +362,26 @@ Installation alone does not guarantee that your agent knows the framework exists
 
 Add a pointer to a control file that your agent runtime automatically reads.
 
+## Fastest Way: Copy the Ready-Made `AGENTS.md`
+
+This repository's own root `AGENTS.md` **is** the ready-to-copy pointer file — it already contains the full block below plus a robust description of what the framework provides. To use it in another project:
+
+1. If your runtime supports native initialization (Claude Code's or Copilot's `/init`) and the project has never been set up for that runtime, run `/init` first so a native control file (`CLAUDE.md`, `.github/copilot-instructions.md`, etc.) exists.
+2. Copy `AGENTS.md` from this repository into the target project's root.
+3. Replace every `<FRAMEWORK_ROOT>` placeholder in the copied file with the real relative path to where you installed the framework (see the two examples below).
+4. If the project's native control file is separate from `AGENTS.md` (e.g. Claude Code's `CLAUDE.md`), reference it from there instead of duplicating the content:
+
+   ```markdown
+   @AGENTS.md
+   ```
+
+   Claude Code natively supports this `@file` import syntax. If your runtime does not support `@file` imports, add one sentence of context above the pointer block instead, so the agent knows what it is about to read:
+
+   > This project uses the Offical-Agentic-Prompt-Starter-Kit (see `AGENTS.md` at the project root). It provides skills, rules, tasks, workflows, agent roles, tools, memory, and specification contracts for building and validating agent-control artifacts consistently. Read `AGENTS.md` before creating or modifying any of those.
+
 ## Portable Pointer Block
+
+If you would rather hand-assemble the pointer instead of copying `AGENTS.md` wholesale, use this block directly.
 
 Replace `<FRAMEWORK_ROOT>` with the actual relative or absolute path.
 
@@ -346,27 +396,27 @@ This project uses a reusable agent-control framework located at:
 
 When creating, modifying, discovering, or validating an agent-control artifact:
 
-1. Read `<FRAMEWORK_ROOT>/README.MD` only when repository-level routing is needed.
+1. Read `<FRAMEWORK_ROOT>/README.md` only when repository-level routing is needed.
 2. Read the applicable root manifest, such as:
-   - `skills/SKILLS.MD`
-   - `rules/RULES.MD`
-   - `modes/MODES.MD`
-   - `instructions/INSTRUCTIONS.MD`
-   - `task/TASKS.MD`
-   - `plans/PLANS.MD`
-   - `workflows/WORKFLOWS.MD`
-   - `agents/AGENTS.MD`
-   - `tools/TOOLS.MD`
-   - `memory/MEMORY.MD`
+   - `skills/SKILLS.md`
+   - `rules/RULES.md`
+   - `modes/MODES.md`
+   - `instructions/INSTRUCTIONS.md`
+   - `task/TASKS.md`
+   - `plans/PLANS.md`
+   - `workflows/WORKFLOWS.md`
+   - `agents/AGENTS.md`
+   - `tools/TOOLS.md`
+   - `memory/MEMORY.md`
 3. When creating or materially redesigning an artifact, follow the corresponding contract in:
    `<FRAMEWORK_ROOT>/agent-specifications/specs/`
 4. Load only the documents relevant to the current task. Do not recursively load the entire framework into context.
 5. Check an existing root manifest before creating a duplicate artifact.
 6. Preserve vendor-native files when the runtime requires them; use them as adapters/pointers to the canonical framework whenever practical.
 7. For existing project customizations, follow:
-   `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.MD`
+   `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.md`
 8. For initial installation or configuration, follow:
-   `<FRAMEWORK_ROOT>/AGENT-SETUP.INSTRUCTIONS.MD`
+   `<FRAMEWORK_ROOT>/AGENT-SETUP.INSTRUCTIONS.md`
 
 <!-- END PORTABLE AGENT CONTROL FRAMEWORK -->
 ```
@@ -395,7 +445,7 @@ The framework itself may live almost anywhere. What matters is that the active a
 |---|---|---|---|
 | **Admin Local** | Project `AGENTS.md` or vendor file | `.admin-local/shared_toolbox/agent-control-framework/` | Recommended private cross-project setup |
 | **VS Code / GitHub Copilot** | `.github/copilot-instructions.md` or `AGENTS.md` | `.agent-framework/`, `.github/`, `.agents/`, or Admin Local | VS Code supports configurable customization locations |
-| **Agent Skills / portable** | `AGENTS.md` plus skill discovery | `.agents/skills/`, `.github/skills/`, `.claude/skills/` | Keep `SKILL.MD` inside each skill folder |
+| **Agent Skills / portable** | `AGENTS.md` plus skill discovery | `.agents/skills/`, `.github/skills/`, `.claude/skills/` | Keep `SKILL.md` inside each skill folder |
 | **Claude Code** | `CLAUDE.md` and `.claude/rules/` | `.claude/` or external framework path referenced by `CLAUDE.md` | Use native files as the entry layer |
 | **Cursor** | `AGENTS.md` or `.cursor/rules/` | Framework can remain external and be referenced | Cursor supports project rules under `.cursor/rules` |
 | **Gemini CLI** | `GEMINI.md` | Any readable framework path referenced/imported by `GEMINI.md` | Gemini supports Markdown context imports |
@@ -414,9 +464,10 @@ agent-specifications/specs/vendor-formats.specification.md
 
 ```text
 /
-├── README.MD
-├── AGENT-SETUP.INSTRUCTIONS.MD
-├── MIGRATION.INSTRUCTIONS.MD
+├── README.md
+├── AGENTS.md                    # Ready-to-copy portable pointer/entry file (see §6)
+├── AGENT-SETUP.INSTRUCTIONS.md
+├── MIGRATION.INSTRUCTIONS.md
 ├── INSTALL-FRAMEWORK.SH
 │
 ├── agent-specifications/
@@ -432,48 +483,48 @@ agent-specifications/specs/vendor-formats.specification.md
 │       └── ...
 │
 ├── skills/
-│   └── SKILLS.MD
+│   └── SKILLS.md
 ├── rules/
-│   └── RULES.MD
+│   └── RULES.md
 ├── modes/
-│   └── MODES.MD
+│   └── MODES.md
 ├── instructions/
-│   ├── INSTRUCTIONS.MD
+│   ├── INSTRUCTIONS.md
 │   └── capability-skillset-instructions/
 │       └── capability-skillset.instructions.md
 ├── task/
-│   ├── TASKS.MD
+│   ├── TASKS.md
 │   └── task-management.instructions.md
 ├── plans/
-│   └── PLANS.MD
+│   └── PLANS.md
 ├── workflows/
-│   └── WORKFLOWS.MD
+│   └── WORKFLOWS.md
 ├── agents/
-│   └── AGENTS.MD
+│   └── AGENTS.md
 ├── tools/
-│   └── TOOLS.MD
+│   └── TOOLS.md
 ├── identity/
-│   └── IDENTITY.MD
+│   └── IDENTITY.md
 ├── memory/
-│   ├── MEMORY.MD
+│   ├── MEMORY.md
 │   └── implicit/          # implicit-memory subsystem
 │
 ├── emulation/
-│   ├── EMULATION.MANIFEST.MD
-│   ├── OBSERVATION.INSTRUCTIONS.MD
-│   ├── GUARDIAN.INSTRUCTIONS.MD
-│   └── OPTIMIZATION.INSTRUCTIONS.MD
+│   ├── EMULATION.MANIFEST.md
+│   ├── OBSERVATION.INSTRUCTIONS.md
+│   ├── GUARDIAN.INSTRUCTIONS.md
+│   └── OPTIMIZATION.INSTRUCTIONS.md
 │
 ├── telemetry/
-│   └── HEARTBEAT.MD
+│   └── HEARTBEAT.md
 ├── state/
-│   └── AURA.STATE.MD
+│   └── AURA.STATE.md
 │
 ├── prompt_engineering/        # Optional/user-maintained advanced prompt library
 ├── documentation/             # Optional — explanatory/publishable material, not yet present
 │
 └── mcp/mcp-server/
-    ├── README.MD
+    ├── README.md
     ├── package.json
     └── src/
         └── index.mjs
@@ -485,24 +536,24 @@ agent-specifications/specs/vendor-formats.specification.md
 
 | System | Root / Entry File | Creation Contract | What It Controls |
 |---|---|---|---|
-| **Capabilities** | `skills/SKILLS.MD` | `capability.specification.md` | Broad ability composed of Skill Sets |
-| **Skill Sets** | `skills/SKILLS.MD` | `skillset.specification.md` | Related collection of Skills |
-| **Skills** | `skills/SKILLS.MD` | `skill.specification.md` | Reusable task-specific procedures and resources |
-| **Rules** | `rules/RULES.MD` | `rules.specification.md` | Constraints and requirements |
-| **Modes** | `modes/MODES.MD` | `mode.specification.md` | Triggered stance/output changes |
-| **Instructions** | `instructions/INSTRUCTIONS.MD` | `instructions.specification.md` | Scoped reusable operating guidance |
-| **Tasks** | `task/TASKS.MD` | `task.specification.md` | Concrete units of work |
-| **Task Management** | `task/TASK-MANAGEMENT.INSTRUCTIONS.MD` | `task.specification.md` | Task placement, backtrace, lifecycle, completion |
-| **Plans** | `plans/PLANS.MD` | `plan.specification.md` | Instance-specific execution sequencing |
-| **Workflows** | `workflows/WORKFLOWS.MD` | `workflow.specification.md` | Reusable multi-step orchestration |
-| **Agents** | `agents/AGENTS.MD` | `agent.specification.md` | Roles, tools, permissions, delegation |
-| **Tools** | `tools/TOOLS.MD` | `tool.specification.md` | Callable actions and side effects |
+| **Capabilities** | `skills/SKILLS.md` | `capability.specification.md` | Broad ability composed of Skill Sets |
+| **Skill Sets** | `skills/SKILLS.md` | `skillset.specification.md` | Related collection of Skills |
+| **Skills** | `skills/SKILLS.md` | `skill.specification.md` | Reusable task-specific procedures and resources |
+| **Rules** | `rules/RULES.md` | `rules.specification.md` | Constraints and requirements |
+| **Modes** | `modes/MODES.md` | `mode.specification.md` | Triggered stance/output changes |
+| **Instructions** | `instructions/INSTRUCTIONS.md` | `instructions.specification.md` | Scoped reusable operating guidance |
+| **Tasks** | `task/TASKS.md` | `task.specification.md` | Concrete units of work |
+| **Task Management** | `task/TASK-MANAGEMENT.INSTRUCTIONS.md` | `task.specification.md` | Task placement, backtrace, lifecycle, completion |
+| **Plans** | `plans/PLANS.md` | `plan.specification.md` | Instance-specific execution sequencing |
+| **Workflows** | `workflows/WORKFLOWS.md` | `workflow.specification.md` | Reusable multi-step orchestration |
+| **Agents** | `agents/AGENTS.md` | `agent.specification.md` | Roles, tools, permissions, delegation |
+| **Tools** | `tools/TOOLS.md` | `tool.specification.md` | Callable actions and side effects |
 | **MCP** | Specification only / implementation-specific | `mcp.specification.md` | Standardized external tool/resource interfaces |
-| **Identity** | `identity/IDENTITY.MD` | `identity.specification.md` | Stable agent identity/presentation |
-| **Memory** | `memory/MEMORY.MD` | Episodic + Implicit Memory specifications | Durable experience and learned patterns |
-| **Emulation** | `emulation/EMULATION.MANIFEST.MD` | Emulation + component specifications | Owner-model learning, Guardian filtering, optimization |
-| **Heartbeat** | `telemetry/HEARTBEAT.MD` | `heartbeat.specification.md` | Context-aware recurring session re-entry |
-| **Aura** | `state/AURA.STATE.MD` | Current Aura contract / future dedicated spec | Compact qualitative runtime health state |
+| **Identity** | `identity/IDENTITY.md` | `identity.specification.md` | Stable agent identity/presentation |
+| **Memory** | `memory/MEMORY.md` | Episodic + Implicit Memory specifications | Durable experience and learned patterns |
+| **Emulation** | `emulation/EMULATION.MANIFEST.md` | Emulation + component specifications | Owner-model learning, Guardian filtering, optimization |
+| **Heartbeat** | `telemetry/HEARTBEAT.md` | `heartbeat.specification.md` | Context-aware recurring session re-entry |
+| **Aura** | `state/AURA.STATE.md` | Current Aura contract / future dedicated spec | Compact qualitative runtime health state |
 | **Vendor Formats** | Documentation/specification layer | `vendor-formats.specification.md` | Translation into vendor-native control forms |
 
 ---
@@ -524,7 +575,7 @@ CAPABILITY
 The canonical root is:
 
 ```text
-skills/SKILLS.MD
+skills/SKILLS.md
 ```
 
 That document maintains **three separate running manifests**:
@@ -536,7 +587,7 @@ That document maintains **three separate running manifests**:
 When building or editing this hierarchy, also read:
 
 ```text
-instructions/CAPABILITY-SKILLSET.INSTRUCTIONS.MD
+instructions/CAPABILITY-SKILLSET.INSTRUCTIONS.md
 ```
 
 and the corresponding specifications.
@@ -577,11 +628,11 @@ If an existing prompt framework is migrated into this repository:
 The Emulation Framework is the owner-model layer.
 
 ```text
-EMULATION.MANIFEST.MD
+EMULATION.MANIFEST.md
         │
-        ├── OBSERVATION.INSTRUCTIONS.MD
-        ├── GUARDIAN.INSTRUCTIONS.MD
-        └── OPTIMIZATION.INSTRUCTIONS.MD
+        ├── OBSERVATION.INSTRUCTIONS.md
+        ├── GUARDIAN.INSTRUCTIONS.md
+        └── OPTIMIZATION.INSTRUCTIONS.md
 ```
 
 ### Observation
@@ -604,7 +655,7 @@ These are runtime-layer concepts rather than ordinary content manifests.
 ## Heartbeat
 
 ```text
-telemetry/HEARTBEAT.MD
+telemetry/HEARTBEAT.md
 ```
 
 Heartbeat defines a recurring **same-context** runtime pulse. It is appropriate when a recurring check depends on the current conversation or session.
@@ -614,7 +665,7 @@ It is not equivalent to an independent cron job.
 ## Aura
 
 ```text
-state/AURA.STATE.MD
+state/AURA.STATE.md
 ```
 
 Aura is the compact qualitative runtime-health model:
@@ -669,7 +720,7 @@ Before creating a new artifact, an agent should read **only the applicable speci
 To define a new specification type, follow:
 
 ```text
-agent-specifications/specs/SPECIFICATION-AUTHORING.MD
+agent-specifications/specs/SPECIFICATION-AUTHORING.md
 ```
 
 ---
@@ -700,7 +751,7 @@ Do not scatter copies blindly through a mature project.
 Use:
 
 ```text
-MIGRATION.INSTRUCTIONS.MD
+MIGRATION.INSTRUCTIONS.md
 ```
 
 The migration process is intentionally:
@@ -833,13 +884,13 @@ When an agent encounters this repository:
 For installing the framework into a new project:
 
 ```text
-AGENT-SETUP.INSTRUCTIONS.MD
+AGENT-SETUP.INSTRUCTIONS.md
 ```
 
 For migrating an existing project:
 
 ```text
-MIGRATION.INSTRUCTIONS.MD
+MIGRATION.INSTRUCTIONS.md
 ```
 
 For automated copying/updating:

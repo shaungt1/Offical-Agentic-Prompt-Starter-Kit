@@ -25,7 +25,7 @@ Options:
 Examples:
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents
-  sh INSTALL-FRAMEWORK.SH update --source https://github.com/OWNER/REPO.git --target ../my-project
+  sh INSTALL-FRAMEWORK.SH update --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git --target ../my-project
 EOF
 }
 
@@ -238,12 +238,12 @@ Framework root: \`$destination\`
 
 When creating, modifying, discovering, or validating an agent-control artifact:
 
-1. Read \`$destination/README.MD\` when repository-level routing is needed.
+1. Read \`$destination/README.md\` when repository-level routing is needed.
 2. Read the applicable root manifest before creating a duplicate.
 3. Follow the corresponding specification under \`$destination/agent-specifications/specs/\`.
 4. Load only the documents relevant to the current task.
 5. Preserve vendor-native entry files when the runtime requires them.
-6. For existing customizations, follow \`$destination/MIGRATION.INSTRUCTIONS.MD\`.
+6. For existing customizations, follow \`$destination/MIGRATION.INSTRUCTIONS.md\`.
 
 $MARKER_END
 EOF
@@ -258,13 +258,13 @@ if [ "$dry_run" = "yes" ]; then
 else
   echo "Validation:"
   required_files="
-README.MD
+README.md
 agent-specifications/specs/skill.specification.md
-skills/SKILLS.MD
-rules/RULES.MD
-task/TASKS.MD
-AGENT-SETUP.INSTRUCTIONS.MD
-MIGRATION.INSTRUCTIONS.MD
+skills/SKILLS.md
+rules/RULES.md
+task/TASKS.md
+AGENT-SETUP.INSTRUCTIONS.md
+MIGRATION.INSTRUCTIONS.md
 "
   failed="no"
   echo "$required_files" | while IFS= read -r f; do

@@ -12,7 +12,7 @@ metadata:
   stage: observation
   tags: [observation, owner-model, semantic-signals, behavior, memory]
   specification_reference: "agent-specifications/specs/observation.specification.md"
-  manifest_reference: "EMULATION.MANIFEST.MD"
+  manifest_reference: "EMULATION.MANIFEST.md"
 ---
 
 # OBSERVATION INSTRUCTIONS
