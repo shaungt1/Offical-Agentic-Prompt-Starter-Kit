@@ -1,0 +1,281 @@
+#!/usr/bin/env sh
+set -eu
+
+VERSION="0.4.0"
+MARKER_BEGIN="<!-- BEGIN PORTABLE AGENT CONTROL FRAMEWORK -->"
+MARKER_END="<!-- END PORTABLE AGENT CONTROL FRAMEWORK -->"
+
+usage() {
+  cat <<'EOF'
+Portable Agent Control Framework installer
+
+Usage:
+  INSTALL-FRAMEWORK.SH <install|update|status> [options]
+
+Options:
+  --source <path-or-git-url>   Framework source. Defaults to the parent of this script.
+  --target <project-root>      Target project. Defaults to current directory.
+  --destination <path>         Destination relative to target. Default: .agent-framework
+  --admin-local                Destination becomes .admin-local/shared_toolbox/agent-control-framework
+  --wire <type>                Wire pointer into: agents|copilot|claude|qwen|gemini|cursor|none
+  --no-backup                  Do not back up an existing destination on update/install replacement.
+  --dry-run                    Print planned actions without changing files.
+  --help                       Show this help.
+
+Examples:
+  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents
+  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents
+  sh INSTALL-FRAMEWORK.SH update --source https://github.com/OWNER/REPO.git --target ../my-project
+EOF
+}
+
+command="${1:-}"
+if [ -z "$command" ] || [ "$command" = "--help" ] || [ "$command" = "-h" ]; then
+  usage
+  exit 0
+fi
+shift || true
+
+case "$command" in
+  install|update|status) ;;
+  *) echo "Unknown command: $command" >&2; usage >&2; exit 2 ;;
+esac
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+default_source=$(CDPATH= cd -- "$script_dir/.." && pwd)
+
+source_value="$default_source"
+target="$(pwd)"
+destination=".agent-framework"
+wire="none"
+backup="yes"
+dry_run="no"
+admin_local="no"
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --source) source_value="$2"; shift 2 ;;
+    --target) target="$2"; shift 2 ;;
+    --destination) destination="$2"; shift 2 ;;
+    --admin-local) admin_local="yes"; shift ;;
+    --wire) wire="$2"; shift 2 ;;
+    --no-backup) backup="no"; shift ;;
+    --dry-run) dry_run="yes"; shift ;;
+    --help|-h) usage; exit 0 ;;
+    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+if [ "$admin_local" = "yes" ]; then
+  destination=".admin-local/shared_toolbox/agent-control-framework"
+fi
+
+target=$(CDPATH= cd -- "$target" 2>/dev/null && pwd) || {
+  echo "Target project does not exist: $target" >&2
+  exit 3
+}
+
+dest_abs="$target/$destination"
+manifest="$dest_abs/.agent-framework-install.json"
+
+if [ "$command" = "status" ]; then
+  echo "Project: $target"
+  echo "Destination: $dest_abs"
+  if [ -f "$manifest" ]; then
+    echo "Status: installed"
+    cat "$manifest"
+  elif [ -d "$dest_abs" ]; then
+    echo "Status: directory exists but install manifest is missing"
+  else
+    echo "Status: not installed"
+  fi
+  exit 0
+fi
+
+if [ "$admin_local" = "yes" ] && [ ! -d "$target/.admin-local/shared_toolbox" ]; then
+  echo "Admin Local shared_toolbox was not found at:" >&2
+  echo "  $target/.admin-local/shared_toolbox" >&2
+  echo "Initialize Admin Local first or omit --admin-local." >&2
+  exit 4
+fi
+
+tmp_root="${TMPDIR:-/tmp}/agent-framework-install.$$"
+tmp_source="$tmp_root/source"
+tmp_payload="$tmp_root/payload"
+mkdir -p "$tmp_root" "$tmp_payload"
+
+cleanup() {
+  rm -rf "$tmp_root"
+}
+trap cleanup EXIT INT TERM
+
+is_git_url="no"
+case "$source_value" in
+  http://*|https://*|git@*|ssh://*|git://*) is_git_url="yes" ;;
+esac
+
+if [ "$is_git_url" = "yes" ]; then
+  command -v git >/dev/null 2>&1 || {
+    echo "git is required for a remote --source URL." >&2
+    exit 5
+  }
+  echo "Staging remote source..."
+  if [ "$dry_run" = "yes" ]; then
+    echo "[DRY-RUN] git clone --depth 1 <source> $tmp_source"
+    mkdir -p "$tmp_source"
+  else
+    git clone --depth 1 "$source_value" "$tmp_source" >/dev/null 2>&1 || {
+      echo "Failed to clone framework source." >&2
+      exit 6
+    }
+  fi
+  staged_source="$tmp_source"
+else
+  if [ ! -d "$source_value" ]; then
+    echo "Framework source directory does not exist: $source_value" >&2
+    exit 7
+  fi
+  staged_source=$(CDPATH= cd -- "$source_value" && pwd)
+fi
+
+if [ "$dry_run" = "yes" ]; then
+  echo "[DRY-RUN] Copy framework from:"
+  echo "  $staged_source"
+  echo "to:"
+  echo "  $dest_abs"
+else
+  # Copy source to a clean staging directory while dropping source-control/runtime junk.
+  (
+    cd "$staged_source"
+    tar -cf - \
+      --exclude='./.git' \
+      --exclude='./.git/*' \
+      --exclude='./node_modules' \
+      --exclude='./node_modules/*' \
+      --exclude='./.DS_Store' \
+      --exclude='./*.zip' \
+      .
+  ) | (
+    cd "$tmp_payload"
+    tar -xf -
+  )
+fi
+
+timestamp=$(date '+%Y%m%d-%H%M%S')
+if [ -e "$dest_abs" ]; then
+  if [ "$backup" = "yes" ]; then
+    backup_path="${dest_abs}.backup-${timestamp}"
+    if [ "$dry_run" = "yes" ]; then
+      echo "[DRY-RUN] Backup existing destination to $backup_path"
+    else
+      mv "$dest_abs" "$backup_path"
+      echo "Backup: $backup_path"
+    fi
+  else
+    if [ "$dry_run" = "yes" ]; then
+      echo "[DRY-RUN] Remove existing managed destination: $dest_abs"
+    else
+      rm -rf "$dest_abs"
+    fi
+  fi
+fi
+
+if [ "$dry_run" != "yes" ]; then
+  mkdir -p "$(dirname "$dest_abs")"
+  mv "$tmp_payload" "$dest_abs"
+  installed_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+  cat > "$manifest" <<EOF
+{
+  "framework_version": "$VERSION",
+  "installed_at": "$installed_at",
+  "source": "$(printf '%s' "$source_value" | sed 's/"/\\"/g')",
+  "project_root": "$(printf '%s' "$target" | sed 's/"/\\"/g')",
+  "destination": "$(printf '%s' "$destination" | sed 's/"/\\"/g')",
+  "install_method": "shell-copy-no-nested-git"
+}
+EOF
+  echo "Installed framework: $dest_abs"
+fi
+
+control_file=""
+case "$wire" in
+  none) ;;
+  agents|cursor) control_file="$target/AGENTS.md" ;;
+  copilot) control_file="$target/.github/copilot-instructions.md" ;;
+  claude) control_file="$target/CLAUDE.md" ;;
+  qwen) control_file="$target/QWEN.md" ;;
+  gemini) control_file="$target/GEMINI.md" ;;
+  *) echo "Unknown --wire value: $wire" >&2; exit 8 ;;
+esac
+
+wire_pointer() {
+  file="$1"
+  if [ -z "$file" ]; then
+    return
+  fi
+
+  if [ -f "$file" ] && grep -F "$MARKER_BEGIN" "$file" >/dev/null 2>&1; then
+    echo "Framework pointer already present: $file"
+    return
+  fi
+
+  if [ "$dry_run" = "yes" ]; then
+    echo "[DRY-RUN] Append framework pointer to $file"
+    return
+  fi
+
+  mkdir -p "$(dirname "$file")"
+  if [ ! -f "$file" ]; then
+    : > "$file"
+  fi
+
+  cat >> "$file" <<EOF
+
+$MARKER_BEGIN
+
+## Shared Agent Control Framework
+
+Framework root: \`$destination\`
+
+When creating, modifying, discovering, or validating an agent-control artifact:
+
+1. Read \`$destination/README.MD\` when repository-level routing is needed.
+2. Read the applicable root manifest before creating a duplicate.
+3. Follow the corresponding specification under \`$destination/agent-specifications/Specs/\`.
+4. Load only the documents relevant to the current task.
+5. Preserve vendor-native entry files when the runtime requires them.
+6. For existing customizations, follow \`$destination/setup/MIGRATION.INSTRUCTIONS.MD\`.
+
+$MARKER_END
+EOF
+
+  echo "Wired framework pointer: $file"
+}
+
+wire_pointer "$control_file"
+
+if [ "$dry_run" = "yes" ]; then
+  echo "Dry run complete."
+else
+  echo "Validation:"
+  required_files="
+README.MD
+agent-specifications/Specs/SKILL.SPECIFICATION.MD
+skills/SKILLS.MD
+rules/RULES.MD
+task/TASKS.MD
+setup/AGENT-SETUP.INSTRUCTIONS.MD
+setup/MIGRATION.INSTRUCTIONS.MD
+"
+  failed="no"
+  echo "$required_files" | while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    if [ ! -e "$dest_abs/$f" ]; then
+      echo "  MISSING: $f" >&2
+      failed="yes"
+    fi
+  done
+  echo "  Framework root: $dest_abs"
+  echo "  Nested .git copied: no"
+  echo "Done."
+fi
