@@ -120,6 +120,8 @@ Never leave a nested `.git/` directory unless the user explicitly chooses a Git 
 
 ## STEP 4 — CHOOSE THE PROJECT ENTRY FILE
 
+Before choosing an entry file, check whether the target runtime has an initialization flow (Claude Code's or GitHub Copilot's `/init`) and whether it has already been run in this project. If it has never been run and the runtime supports it, run it first so a native control file exists before layering a pointer on top of it.
+
 Prefer an entry file already recognized by the user's runtime.
 
 | Runtime | Preferred Entry |
@@ -135,7 +137,17 @@ Do not create several duplicate entry files unless the project genuinely needs m
 
 ## STEP 5 — ADD THE FRAMEWORK POINTER
 
-Append exactly one pointer block. Do not duplicate it if one already exists.
+The fastest path: copy this repository's own root `AGENTS.md` into the target project's root, then replace every `<FRAMEWORK_ROOT>` placeholder inside it with the real install path. That file already contains the pointer block below plus a robust description of the framework, a full map of what it contains, and the critical operating rules.
+
+If the runtime's native entry file is separate from `AGENTS.md` (e.g. Claude Code's `CLAUDE.md`), reference it rather than duplicating it:
+
+```markdown
+@AGENTS.md
+```
+
+If the runtime does not support `@file` imports, paste the small YAML reference block from the top of `AGENTS.md` instead, so the agent gets a one-glance description before reading the whole file.
+
+Otherwise, append exactly one pointer block by hand. Do not duplicate it if one already exists.
 
 Use a path that the runtime can resolve.
 

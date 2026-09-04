@@ -121,7 +121,7 @@ This table is the canonical index of ordinary project rules. Add one row for eve
 
 | Status | Rule | Purpose | Scope / Activation | Canonical Path | Version | Related Rules / Notes |
 |---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |
+| active | Critical Operating Rules | Never assume; never guess at implementation details; never change unrelated code; never overcomplicate; never delete a file to rebuild it without copying first; ask before starting/stopping a server; follow the governing folder for the artifact type in question. | Global — every agent session in this repository or a project that has copied `AGENTS.md` | `AGENTS.md` (§ "Critical Rules — Read First") | 0.4.0 | Kept in `AGENTS.md` rather than split into individual `rules/<rule-name>/` artifacts so they stay visible at the top of the agent's entry point; see `agent-specifications/specs/rules.specification.md` if any one of them is later promoted to its own canonical rule file. |
 
 ### Adding a Rule to the Manifest
 

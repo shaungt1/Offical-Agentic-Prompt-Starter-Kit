@@ -18,13 +18,15 @@ Options:
   --destination <path>         Destination relative to target. Default: .agent-framework
   --admin-local                Destination becomes .admin-local/shared_toolbox/agent-control-framework
   --wire <type>                Wire pointer into: agents|copilot|claude|qwen|gemini|cursor|none
+  --with-mcp <target>          Also generate a default MCP server config if one doesn't already exist:
+                                claude (.mcp.json), vscode (.vscode/mcp.json), both, or none (default: none)
   --no-backup                  Do not back up an existing destination on update/install replacement.
   --dry-run                    Print planned actions without changing files.
   --help                       Show this help.
 
 Examples:
-  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents
-  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents
+  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents --with-mcp both
+  sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents --with-mcp claude
   sh INSTALL-FRAMEWORK.SH update --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git --target ../my-project
 EOF
 }
@@ -48,6 +50,7 @@ source_value="$default_source"
 target="$(pwd)"
 destination=".agent-framework"
 wire="none"
+with_mcp="none"
 backup="yes"
 dry_run="no"
 admin_local="no"
@@ -59,6 +62,7 @@ while [ "$#" -gt 0 ]; do
     --destination) destination="$2"; shift 2 ;;
     --admin-local) admin_local="yes"; shift ;;
     --wire) wire="$2"; shift 2 ;;
+    --with-mcp) with_mcp="$2"; shift 2 ;;
     --no-backup) backup="no"; shift ;;
     --dry-run) dry_run="yes"; shift ;;
     --help|-h) usage; exit 0 ;;
@@ -252,6 +256,74 @@ EOF
 }
 
 wire_pointer "$control_file"
+
+server_entry_name="agent-control-framework"
+server_js_path="$destination/mcp/mcp-server/src/index.mjs"
+
+write_mcp_config() {
+  target_file="$1"
+  key_name="$2"
+  json_body="$3"
+
+  if [ -f "$target_file" ] && grep -F "$server_entry_name" "$target_file" >/dev/null 2>&1; then
+    echo "MCP config already references '$server_entry_name': $target_file"
+    return
+  fi
+
+  if [ "$dry_run" = "yes" ]; then
+    echo "[DRY-RUN] Write MCP config to $target_file"
+    return
+  fi
+
+  if [ -f "$target_file" ]; then
+    echo "MCP config already exists and does not reference '$server_entry_name': $target_file" >&2
+    echo "  Add this by hand under the \"$key_name\" key instead of overwriting the file:" >&2
+    echo "$json_body" | sed 's/^/  /' >&2
+    return
+  fi
+
+  mkdir -p "$(dirname "$target_file")"
+  printf '%s\n' "$json_body" > "$target_file"
+  echo "Wrote MCP config: $target_file"
+}
+
+case "$with_mcp" in
+  none) ;;
+  claude|vscode|both)
+    claude_json=$(cat <<EOF
+{
+  "mcpServers": {
+    "$server_entry_name": {
+      "command": "node",
+      "args": ["$server_js_path"],
+      "env": {
+        "AGENT_FRAMEWORK_HOME": "$destination"
+      }
+    }
+  }
+}
+EOF
+)
+    vscode_json=$(cat <<EOF
+{
+  "servers": {
+    "$server_entry_name": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["\${workspaceFolder}/$server_js_path"],
+      "env": {
+        "AGENT_FRAMEWORK_HOME": "\${workspaceFolder}/$destination"
+      }
+    }
+  }
+}
+EOF
+)
+    [ "$with_mcp" = "claude" ] || [ "$with_mcp" = "both" ] && write_mcp_config "$target/.mcp.json" "mcpServers" "$claude_json"
+    [ "$with_mcp" = "vscode" ] || [ "$with_mcp" = "both" ] && write_mcp_config "$target/.vscode/mcp.json" "servers" "$vscode_json"
+    ;;
+  *) echo "Unknown --with-mcp value: $with_mcp" >&2; exit 9 ;;
+esac
 
 if [ "$dry_run" = "yes" ]; then
   echo "Dry run complete."

@@ -150,6 +150,60 @@ ${POINTER_END}
   return { controlFile: controlPath, changed: true };
 }
 
+const MCP_SERVER_ENTRY_NAME = 'agent-control-framework';
+
+async function writeMcpConfig(projectRoot, destination, target) {
+  const serverJsPath = `${destination}/mcp/mcp-server/src/index.mjs`;
+  const targets = target === 'both' ? ['claude', 'vscode'] : [target];
+  const results = [];
+
+  for (const t of targets) {
+    const controlRelative = t === 'claude' ? '.mcp.json' : '.vscode/mcp.json';
+    const controlPath = resolveUnder(projectRoot, controlRelative);
+    const body = t === 'claude'
+      ? {
+          mcpServers: {
+            [MCP_SERVER_ENTRY_NAME]: {
+              command: 'node',
+              args: [serverJsPath],
+              env: { AGENT_FRAMEWORK_HOME: destination }
+            }
+          }
+        }
+      : {
+          servers: {
+            [MCP_SERVER_ENTRY_NAME]: {
+              type: 'stdio',
+              command: 'node',
+              args: [`\${workspaceFolder}/${serverJsPath}`],
+              env: { AGENT_FRAMEWORK_HOME: `\${workspaceFolder}/${destination}` }
+            }
+          }
+        };
+
+    if (await exists(controlPath)) {
+      const current = await fs.readFile(controlPath, 'utf8');
+      if (current.includes(MCP_SERVER_ENTRY_NAME)) {
+        results.push({ controlFile: controlPath, changed: false, reason: 'already references agent-control-framework' });
+        continue;
+      }
+      results.push({
+        controlFile: controlPath,
+        changed: false,
+        reason: 'file already exists with unrelated content; add this block by hand instead of overwriting it',
+        suggestedBlock: body
+      });
+      continue;
+    }
+
+    await fs.mkdir(path.dirname(controlPath), { recursive: true });
+    await fs.writeFile(controlPath, JSON.stringify(body, null, 2) + '\n', 'utf8');
+    results.push({ controlFile: controlPath, changed: true });
+  }
+
+  return results;
+}
+
 async function frameworkSummary(frameworkRoot) {
   const root = path.resolve(frameworkRoot);
   const expected = [
