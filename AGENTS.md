@@ -106,7 +106,7 @@ Before relying on this file alone:
 | `telemetry/HEARTBEAT.md` | Heartbeat pattern | Recurring same-context session re-entry (not an independent cron job) |
 | `state/AURA.STATE.md` | Runtime-health model | Compact qualitative state: context capacity, constraint integrity, execution stability |
 | `prompt_engineering/` | Prompt-engineering library | `prompt-engineering.skill.md` routes to two compendium volumes of 49 prompting frameworks |
-| `mcp/mcp-server/` | Local stdio MCP server | Exposes `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, `framework_write_migration_plan` |
+| `mcp/mcp-server/` | Local stdio MCP server | Exposes `framework_detect`, `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, `framework_write_migration_plan` |
 | `.admin-local/` (if present) | Private, Git-excluded workbench | Created by the Admin Local VS Code extension; never treat its contents as part of the portable framework payload |
 
 ---

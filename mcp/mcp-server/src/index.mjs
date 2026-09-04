@@ -312,8 +312,58 @@ async function writeMigrationPlan(projectRoot, outputRelative) {
   return { output, count: rows.length, artifacts: rows };
 }
 
+async function detectProject(projectRoot) {
+  const project = path.resolve(projectRoot);
+
+  const vendorFolders = {
+    adminLocal: await exists(path.join(project, '.admin-local', 'shared_toolbox')),
+    claude: await exists(path.join(project, '.claude')),
+    github: await exists(path.join(project, '.github')),
+    cursor: await exists(path.join(project, '.cursor')),
+    qwen: await exists(path.join(project, '.qwen')),
+    gemini: await exists(path.join(project, '.gemini'))
+  };
+
+  const entryFiles = {};
+  for (const f of ['AGENTS.md', 'CLAUDE.md', 'CLAUDE.local.md', 'QWEN.md', 'GEMINI.md', '.github/copilot-instructions.md', '.cursor/rules']) {
+    entryFiles[f] = await exists(path.join(project, f));
+  }
+
+  const suggestions = [];
+  if (vendorFolders.adminLocal) suggestions.push({ frameworkRoot: '.admin-local/shared_toolbox/agent-control-framework', reason: 'Admin Local Toolbox found — shared across every project on this machine' });
+  if (vendorFolders.claude) suggestions.push({ frameworkRoot: '.claude/agent-control-framework', reason: '.claude/ found' });
+  if (vendorFolders.github) suggestions.push({ frameworkRoot: '.github/agent-control-framework', reason: '.github/ found (Copilot)' });
+  if (vendorFolders.cursor) suggestions.push({ frameworkRoot: '.cursor/agent-control-framework', reason: '.cursor/ found' });
+  if (vendorFolders.qwen) suggestions.push({ frameworkRoot: '.qwen/agent-control-framework', reason: '.qwen/ found' });
+  if (vendorFolders.gemini) suggestions.push({ frameworkRoot: '.gemini/agent-control-framework', reason: '.gemini/ found' });
+  suggestions.push({ frameworkRoot: '.agent-framework', reason: 'default fallback — no vendor folder found, or team-committed generic copy preferred' });
+
+  return {
+    projectRoot: project,
+    vendorFolders,
+    entryFiles,
+    suggestions,
+    reminder: 'The framework COPY location and the per-project WIRING are separate decisions. A shared Admin Local Toolbox copy is visible to every project using it — never put project-specific customizations inside it. Wire this project'
+      + "'s pointer into its own committed control file (AGENTS.md, CLAUDE.md, .github/copilot-instructions.md, ...) for team-shared setup, or a private one (CLAUDE.local.md, or another project-local file kept out of Git) if the wiring itself must not be shared."
+  };
+}
+
 function createServer() {
   const server = new McpServer({ name: SERVER_NAME, version: SERVER_VERSION });
+
+  server.registerTool(
+    'framework_detect',
+    {
+      description: 'Non-destructive scan of a project for existing vendor folders (.claude, .github, .cursor, .qwen, .gemini), an Admin Local Toolbox, and existing entry/control files. Returns a suggested FRAMEWORK_ROOT precedence so the agent does not have to guess where to install.',
+      inputSchema: z.object({
+        projectRoot: z.string()
+      })
+    },
+    async ({ projectRoot }) => {
+      if (!(await exists(path.resolve(projectRoot)))) throw new Error(`Project root does not exist: ${path.resolve(projectRoot)}`);
+      return textResult(await detectProject(projectRoot));
+    }
+  );
 
   server.registerTool(
     'framework_inspect',

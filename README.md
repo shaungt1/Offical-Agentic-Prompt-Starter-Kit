@@ -310,6 +310,7 @@ mcp/mcp-server/
 
 It exposes tools that an MCP-capable agent can use to:
 
+- scan a project for existing vendor folders (`.claude`, `.github`, `.cursor`, `.qwen`, `.gemini`), an Admin Local Toolbox, and existing entry files, returning a ranked `FRAMEWORK_ROOT` suggestion (`framework_detect`);
 - inspect a framework installation (`framework_inspect`);
 - copy/install or update the framework safely, optionally generating a default `.mcp.json` and/or `.vscode/mcp.json` via `withMcp: 'claude' | 'vscode' | 'both'` if one doesn't already exist (`framework_install_or_update`);
 - wire an agent-control file to the framework (`framework_wire_agent`);
@@ -441,12 +442,28 @@ Framework root:
 `.admin-local/shared_toolbox/agent-control-framework`
 ```
 
+This one is shared across every project using that Toolbox — see §2. It's one example among several, not the default; run `detect` (§4) to see which applies to a given project.
+
 ## Example: Committed Project Copy
 
 ```markdown
 Framework root:
 `.agent-framework`
 ```
+
+## Other Examples: Alongside an Existing Vendor Folder
+
+If the project already has one of these, prefer installing next to it instead of a generic top-level folder:
+
+```markdown
+.claude/agent-control-framework          (Claude Code project)
+.github/agent-control-framework          (GitHub Copilot / VS Code)
+.cursor/agent-control-framework          (Cursor)
+.qwen/agent-control-framework            (Qwen Code)
+.gemini/agent-control-framework          (Gemini CLI)
+```
+
+In every case, the framework **copy** location and this project's **wiring** (the pointer block itself) are separate decisions — see `AGENT-SETUP.INSTRUCTIONS.md` §2 for the full precedence rules and the committed-vs-private wiring guidance.
 
 ---
 

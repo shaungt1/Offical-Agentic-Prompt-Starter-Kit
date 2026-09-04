@@ -15,6 +15,7 @@ The server is intentionally local and filesystem-oriented.
 
 | Tool | Purpose | Destructive? |
 |---|---|---|
+| `framework_detect` | Scan a project for existing vendor folders, an Admin Local Toolbox, and entry files; return a ranked `FRAMEWORK_ROOT` suggestion | No |
 | `framework_inspect` | Validate a framework root and show required-file status | No |
 | `framework_install_or_update` | Install/copy a local or Git-hosted framework without nested `.git`; backs up existing destination; optionally writes a default `.mcp.json`/`.vscode/mcp.json` via `withMcp` if one doesn't already exist | Replaces managed destination after backup |
 | `framework_wire_agent` | Add the small framework pointer to an agent-control file | Appends only |
@@ -115,6 +116,18 @@ If using Admin Local:
 VS Code also supports portable/user MCP configuration outside `.vscode/mcp.json`. Use the location appropriate to your host.
 
 ## AGENT USAGE EXAMPLE
+
+Before a first install, figure out where the copy should live:
+
+```text
+Check this project for existing agent-runtime folders and tell me where the framework should go.
+```
+
+The agent should call:
+
+```text
+framework_detect
+```
 
 After the MCP server is enabled:
 

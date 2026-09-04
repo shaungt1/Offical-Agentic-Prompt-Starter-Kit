@@ -10,7 +10,12 @@ usage() {
 Portable Agent Control Framework installer
 
 Usage:
-  INSTALL-FRAMEWORK.SH <install|update|status> [options]
+  INSTALL-FRAMEWORK.SH <install|update|status|detect> [options]
+
+Commands:
+  detect    Non-destructive scan of --target for existing vendor folders (.claude, .github,
+            .cursor, .qwen, .gemini), an Admin Local Toolbox, and existing entry/control files.
+            Prints a suggested FRAMEWORK_ROOT so a human or an agent can choose without guessing.
 
 Options:
   --source <path-or-git-url>   Framework source. Defaults to the parent of this script.
@@ -39,7 +44,7 @@ fi
 shift || true
 
 case "$command" in
-  install|update|status) ;;
+  install|update|status|detect) ;;
   *) echo "Unknown command: $command" >&2; usage >&2; exit 2 ;;
 esac
 
@@ -81,6 +86,101 @@ target=$(CDPATH= cd -- "$target" 2>/dev/null && pwd) || {
 
 dest_abs="$target/$destination"
 manifest="$dest_abs/.agent-framework-install.json"
+
+if [ "$command" = "detect" ]; then
+  echo "Project: $target"
+  echo ""
+  echo "Detected vendor / customization folders:"
+  found_admin_local="no"; found_claude="no"; found_github="no"; found_cursor="no"; found_qwen="no"; found_gemini="no"
+
+  if [ -d "$target/.admin-local/shared_toolbox" ]; then
+    echo "  .admin-local/shared_toolbox/    FOUND"
+    found_admin_local="yes"
+  else
+    echo "  .admin-local/shared_toolbox/    not found"
+  fi
+  if [ -d "$target/.claude" ]; then
+    echo "  .claude/                        FOUND"
+    found_claude="yes"
+  else
+    echo "  .claude/                        not found"
+  fi
+  if [ -d "$target/.github" ]; then
+    echo "  .github/                        FOUND (Copilot)"
+    found_github="yes"
+  else
+    echo "  .github/                        not found"
+  fi
+  if [ -d "$target/.cursor" ]; then
+    echo "  .cursor/                        FOUND"
+    found_cursor="yes"
+  else
+    echo "  .cursor/                        not found"
+  fi
+  if [ -d "$target/.qwen" ]; then
+    echo "  .qwen/                          FOUND"
+    found_qwen="yes"
+  else
+    echo "  .qwen/                          not found"
+  fi
+  if [ -d "$target/.gemini" ]; then
+    echo "  .gemini/                        FOUND"
+    found_gemini="yes"
+  else
+    echo "  .gemini/                        not found"
+  fi
+
+  echo ""
+  echo "Existing entry/control files:"
+  for f in AGENTS.md CLAUDE.md CLAUDE.local.md QWEN.md GEMINI.md .github/copilot-instructions.md .cursor/rules; do
+    if [ -e "$target/$f" ]; then
+      echo "  $f    FOUND"
+    else
+      echo "  $f    not found"
+    fi
+  done
+
+  echo ""
+  echo "Suggested FRAMEWORK_ROOT (highest precedence first):"
+  n=1
+  if [ "$found_admin_local" = "yes" ]; then
+    echo "  $n. .admin-local/shared_toolbox/agent-control-framework   (Admin Local Toolbox found — shared across every project on this machine)"
+    n=$((n + 1))
+  fi
+  if [ "$found_claude" = "yes" ]; then
+    echo "  $n. .claude/agent-control-framework                       (.claude/ found)"
+    n=$((n + 1))
+  fi
+  if [ "$found_github" = "yes" ]; then
+    echo "  $n. .github/agent-control-framework                       (.github/ found — Copilot)"
+    n=$((n + 1))
+  fi
+  if [ "$found_cursor" = "yes" ]; then
+    echo "  $n. .cursor/agent-control-framework                       (.cursor/ found)"
+    n=$((n + 1))
+  fi
+  if [ "$found_qwen" = "yes" ]; then
+    echo "  $n. .qwen/agent-control-framework                         (.qwen/ found)"
+    n=$((n + 1))
+  fi
+  if [ "$found_gemini" = "yes" ]; then
+    echo "  $n. .gemini/agent-control-framework                       (.gemini/ found)"
+    n=$((n + 1))
+  fi
+  echo "  $n. .agent-framework                                       (default fallback — no vendor folder found, or team-committed generic copy preferred)"
+
+  echo ""
+  echo "Reminder: the framework COPY location and the per-project WIRING are separate decisions."
+  echo "  - If the copy lives in a shared Admin Local Toolbox, its content is visible to every"
+  echo "    project using that Toolbox. Never put project-specific customizations inside it."
+  echo "  - Wire THIS project's pointer into its own control file: a committed one (AGENTS.md,"
+  echo "    CLAUDE.md, .github/copilot-instructions.md, ...) for team-shared setup, the normal"
+  echo "    case and the file \"anybody can commit\" — or a private one (CLAUDE.local.md, or a"
+  echo "    project-local file kept out of Git) if the wiring itself must not be shared."
+  echo ""
+  echo "Run install with --destination <one of the above> (or --admin-local) and --wire <vendor>."
+  exit 0
+fi
 
 if [ "$command" = "status" ]; then
   echo "Project: $target"
