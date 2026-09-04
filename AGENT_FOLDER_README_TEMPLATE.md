@@ -31,7 +31,8 @@ This folder is `FRAMEWORK_ROOT`. The project that installed it has its own `AGEN
 | `memory/` | Episodic + implicit memory |
 | `modes/` | Triggered stance / output changes |
 | `plans/` | Instance-specific execution plans |
-| `prompt_engineering/` | Prompt-engineering framework library |
+| `prompt_engineering/` | Prompt-engineering framework library (methodology — how to write good prompts) |
+| `prompts/` | Reusable, explicitly-invoked prompts written by the user or the agent |
 | `rules/` | Behavioral rules manifest |
 | `skills/` | Skill / Skill Set / Capability manifest |
 | `state/` | Compact runtime-health model |
@@ -154,6 +155,17 @@ This folder is `FRAMEWORK_ROOT`. The project that installed it has its own `AGEN
 | Version | 1.0.0 |
 | How to use | Identify the failure mode/goal, pick the matching framework from the skill's index table, apply its template from the source volume |
 | Adding something new | Add a framework entry to the relevant volume and index it in the skill's routing table |
+
+## `prompts/`
+
+| Field | Value |
+|---|---|
+| Purpose | Reusable, explicitly-invoked request text written by the user or the agent — not ambient guidance (that's `instructions/`) and not a procedure the agent runs on its own (that's `skills/`) |
+| Entry point | `prompts/PROMPTS.md` |
+| Governing specification | `agent-specifications/specs/prompt.specification.md` |
+| Version | 0.1.0 |
+| How to use | Someone explicitly invokes a saved prompt to get a specific outcome |
+| Adding something new | Save it the moment it proves useful — either party (user or agent) may add one; record the author and add the manifest row |
 
 ## `rules/`
 

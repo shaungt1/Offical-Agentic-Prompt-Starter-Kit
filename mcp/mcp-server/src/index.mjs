@@ -38,8 +38,8 @@ async function exists(p) {
 
 const LEAN_FOLDERS = [
   'agent-specifications', 'agents', 'emulation', 'identity', 'instructions', 'mcp', 'memory',
-  'modes', 'plans', 'prompt_engineering', 'rules', 'skills', 'state', 'task', 'telemetry',
-  'tools', 'workflows'
+  'modes', 'plans', 'prompt_engineering', 'prompts', 'rules', 'skills', 'state', 'task',
+  'telemetry', 'tools', 'workflows'
 ];
 
 async function copyFramework(sourceRoot, destinationRoot, layout = 'lean') {
@@ -295,7 +295,7 @@ function classifyArtifact(rel) {
     return { type: 'Instruction/Rule', canonical: 'instructions/ or rules/', action: 'CLASSIFY' };
   }
   if (/\.prompt\.md$/i.test(base) || norm.startsWith('.github/prompts/')) {
-    return { type: 'Prompt', canonical: 'prompt_engineering/', action: 'REVIEW/COPY' };
+    return { type: 'Prompt', canonical: 'prompts/', action: 'REVIEW/COPY' };
   }
   if (/^(AGENTS(\.override)?\.md|CLAUDE(\.local)?\.md|QWEN\.md|GEMINI\.md|replit\.md)$/i.test(base) ||
       norm === '.github/copilot-instructions.md') {

@@ -172,7 +172,8 @@ If one file contains several unrelated artifact types, do not automatically spli
 | Emulation | `emulation/` |
 | Heartbeat | `telemetry/HEARTBEAT.md` |
 | Aura | `state/AURA.STATE.md` |
-| Prompt frameworks | `prompt_engineering/` or project-selected prompt root |
+| Prompt-engineering methodology/frameworks | `prompt_engineering/` or project-selected prompt root |
+| Reusable, explicitly-invoked prompts (`*.prompt.md`) | `prompts/` + `prompts/PROMPTS.md` |
 | Research / proposals | `documentation/` |
 
 Canonical roots do not override vendor discovery requirements.
@@ -290,7 +291,7 @@ Prefer one canonical instruction/rule plus native pointers/imports/adapters.
 
 ### Prompt Engineering
 
-Preserve advanced prompt frameworks as prompts when they are meant to be explicitly invoked or selected.
+Preserve advanced prompt frameworks as methodology under `prompt_engineering/`, distinct from the actual reusable, explicitly-invoked prompt files that belong under `prompts/` (see `prompts/PROMPTS.md` for the difference).
 
 Do not flatten a prompt framework library into general instructions.
 

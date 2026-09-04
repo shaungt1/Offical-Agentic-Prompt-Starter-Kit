@@ -66,7 +66,7 @@ dry_run="no"
 admin_local="no"
 layout="lean"
 
-LEAN_FOLDERS="agent-specifications agents emulation identity instructions mcp memory modes plans prompt_engineering rules skills state task telemetry tools workflows"
+LEAN_FOLDERS="agent-specifications agents emulation identity instructions mcp memory modes plans prompt_engineering prompts rules skills state task telemetry tools workflows"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in

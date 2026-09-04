@@ -89,7 +89,8 @@ This repository implements the exact directory schema required for native AI con
 ├── 📁 task/                                 # Task/Task-List routing manifest and instructions
 ├── 📁 telemetry/                            # Logging, token monitoring, and agent tracing
 ├── 📁 state/                                # Persisted agent runtime flags
-├── 📁 prompt_engineering/                   # Raw metaprompt libraries
+├── 📁 prompt_engineering/                   # Raw metaprompt libraries (methodology)
+├── 📁 prompts/                              # Reusable, explicitly-invoked prompts (user- or agent-written)
 ├── 📁 emulation/                            # Cross-client environment simulators
 └── 📁 mcp/mcp-server/                       # Local stdio MCP server (see §4)
 ```
@@ -423,6 +424,7 @@ When creating, modifying, discovering, or validating an agent-control artifact:
    - `task/TASKS.md`
    - `plans/PLANS.md`
    - `workflows/WORKFLOWS.md`
+   - `prompts/PROMPTS.md`
    - `agents/AGENTS.md`
    - `tools/TOOLS.md`
    - `memory/MEMORY.md`
@@ -542,6 +544,7 @@ agent-specifications/specs/vendor-formats.specification.md
 │   └── IDENTITY.md
 ├── memory/
 │   ├── MEMORY.md
+│   ├── MEMORY_INDEX.md    # episodic memory log
 │   └── implicit/          # implicit-memory subsystem
 │
 ├── emulation/
@@ -555,7 +558,9 @@ agent-specifications/specs/vendor-formats.specification.md
 ├── state/
 │   └── AURA.STATE.md
 │
-├── prompt_engineering/        # Optional/user-maintained advanced prompt library
+├── prompt_engineering/        # Optional/user-maintained advanced prompt library (methodology)
+├── prompts/
+│   └── PROMPTS.md             # Reusable, explicitly-invoked prompts (user- or agent-written)
 ├── documentation/             # Optional — explanatory/publishable material, not yet present
 │
 └── mcp/mcp-server/
@@ -578,12 +583,13 @@ agent-specifications/specs/vendor-formats.specification.md
 | **Modes** | `modes/MODES.md` | `mode.specification.md` | Triggered stance/output changes |
 | **Instructions** | `instructions/INSTRUCTIONS.md` | `instructions.specification.md` | Scoped reusable operating guidance |
 | **Tasks** | `task/TASKS.md` | `task.specification.md` | Concrete units of work |
-| **Task Management** | `task/TASK-MANAGEMENT.INSTRUCTIONS.md` | `task.specification.md` | Task placement, backtrace, lifecycle, completion |
+| **Task Management** | `task/task-management.instructions.md` | `task.specification.md` | Task placement, backtrace, lifecycle, completion |
 | **Plans** | `plans/PLANS.md` | `plan.specification.md` | Instance-specific execution sequencing |
 | **Workflows** | `workflows/WORKFLOWS.md` | `workflow.specification.md` | Reusable multi-step orchestration |
+| **Prompts** | `prompts/PROMPTS.md` | `prompt.specification.md` | Reusable, explicitly-invoked request text (user- or agent-written) |
 | **Agents** | `agents/AGENTS.md` | `agent.specification.md` | Roles, tools, permissions, delegation |
 | **Tools** | `tools/TOOLS.md` | `tool.specification.md` | Callable actions and side effects |
-| **MCP** | Specification only / implementation-specific | `mcp.specification.md` | Standardized external tool/resource interfaces |
+| **MCP** | `mcp/mcp-server/` (reference implementation) | `mcp.specification.md` | Standardized external tool/resource interfaces |
 | **Identity** | `identity/IDENTITY.md` | `identity.specification.md` | Stable agent identity/presentation |
 | **Memory** | `memory/MEMORY.md` | Episodic + Implicit Memory specifications | Durable experience and learned patterns |
 | **Emulation** | `emulation/EMULATION.MANIFEST.md` | Emulation + component specifications | Owner-model learning, Guardian filtering, optimization |
