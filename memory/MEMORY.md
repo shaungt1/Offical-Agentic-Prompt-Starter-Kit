@@ -15,8 +15,8 @@ This library separates memory into two primary forms:
 
 | Memory Type | Purpose | Governing Specification |
 |---|---|---|
-| **Episodic Memory** | Records time-bound events, sessions, observations, decisions, and experiences with provenance. | `agent-specifications/Specs/episodic-memory.specification.md` |
-| **Implicit Memory** | Records learned preferences, tendencies, recurring patterns, inferred behavior, and confidence-weighted observations. | `agent-specifications/Specs/implicit-memory.specification.md` |
+| **Episodic Memory** | Records time-bound events, sessions, observations, decisions, and experiences with provenance. | `agent-specifications/specs/episodic-memory.specification.md` |
+| **Implicit Memory** | Records learned preferences, tendencies, recurring patterns, inferred behavior, and confidence-weighted observations. | `agent-specifications/specs/implicit-memory.specification.md` |
 
 Memory is not a rule. Memory describes what was observed, learned, or retained. Rules determine what must or must not happen.
 
@@ -50,7 +50,7 @@ When adding memory:
 
 | Status | Memory System / Collection | Type | Purpose | Canonical Path | Version | Rules / Notes |
 |---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |
+| active | Implicit Memory | Implicit | Persistent, revisable conclusions derived from interaction, evidence, and reflection that are expected to materially improve future reasoning or behavior. | `memory/implicit/IMPLICIT_MEMORY.md` | 1.0 | Governed by `agent-specifications/specs/implicit-memory.specification.md`; operational hook in `memory/implicit/implicit-memory.instructions.md`. |
 
 ## Memory-Scoped Rules
 
@@ -61,7 +61,7 @@ memory/episodic/rules/
 memory/implicit/rules/
 ```
 
-These rules remain subject to `agent-specifications/Specs/rules.specification.md` in addition to the applicable memory specification.
+These rules remain subject to `agent-specifications/specs/rules.specification.md` in addition to the applicable memory specification.
 
 ## Verification
 

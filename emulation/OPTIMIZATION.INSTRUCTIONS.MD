@@ -10,7 +10,7 @@ metadata:
   category: emulation
   stage: optimization
   tags: [optimization, owner-model, friction, routine, proactive, probing]
-  specification_reference: "agent-specifications/Specs/OPTIMIZATION.SPECIFICATION.MD"
+  specification_reference: "agent-specifications/specs/optimization.specification.md"
   manifest_reference: "EMULATION.MANIFEST.MD"
 ---
 

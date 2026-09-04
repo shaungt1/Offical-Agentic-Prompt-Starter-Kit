@@ -55,7 +55,7 @@ A Skill is **not** merely a label or a list of related topics. If the artifact o
 When creating or materially redesigning a Skill, follow:
 
 ```text
-agent-specifications\Specs\SKILL.SPECIFICATION.MD
+agent-specifications\specs\skill.specification.md
 ```
 
 The specification is authoritative for the Skill's required frontmatter, body structure, resource model, permissions, procedure design, output contract, verification, and vendor transformations.
@@ -111,7 +111,7 @@ The Skill Set does not duplicate the procedures inside the member Skills. Its jo
 When creating or materially redesigning a Skill Set, follow:
 
 ```text
-agent-specifications\Specs\SKILLSET.SPECIFICATION.MD
+agent-specifications\specs\skillset.specification.md
 ```
 
 ### Canonical Skill Set Folder
@@ -156,13 +156,13 @@ CAPABILITY: software-engineering
 When creating or materially redesigning a Capability, follow:
 
 ```text
-agent-specifications\Specs\CAPABILITY.SPECIFICATION.MD
+agent-specifications\specs\capability.specification.md
 ```
 
 Composition and traversal guidance is additionally defined in:
 
 ```text
-agent-specifications\Specs\CAPABILITY-SKILLSET.INSTRUNCTION.MD
+instructions\capability-skillset-instructions\capability-skillset.instructions.md
 ```
 
 ### Canonical Capability Folder
@@ -216,7 +216,7 @@ When an agent is asked to create a Skill:
 
 1. **Search this document's Skill Manifest first.** Determine whether the Skill already exists under the same or equivalent purpose.
 2. **Inspect related Skill Sets and Capabilities.** Determine where the new Skill belongs and whether an existing parent already covers the domain.
-3. **Read `agent-specifications\Specs\SKILL.SPECIFICATION.MD`.** Do not invent a local format when the specification already defines the artifact contract.
+3. **Read `agent-specifications\specs\skill.specification.md`.** Do not invent a local format when the specification already defines the artifact contract.
 4. **Choose the Skill name.** Use a stable lowercase kebab-case identifier that describes the competency rather than a temporary task.
 5. **Create the Skill folder.** Use `skills/<skill-name>/` unless the project or vendor explicitly defines another canonical location.
 6. **Create `SKILL.MD` inside the folder.** Populate the required rich frontmatter and required body sections from the specification.
@@ -239,7 +239,7 @@ Duplicate or equivalent Skill exists?
      YES      NO
       │        │
       ▼        ▼
-Reuse /   Read SKILL.SPECIFICATION.MD
+Reuse /   Read skill.specification.md
 extend          │
                 ▼
        Create skills/<name>/
@@ -264,7 +264,7 @@ extend          │
 When several Skills form one coherent domain or role:
 
 1. Search the **Skill Set Manifest** for an equivalent grouping.
-2. Read `agent-specifications\Specs\SKILLSET.SPECIFICATION.MD`.
+2. Read `agent-specifications\specs\skillset.specification.md`.
 3. Verify that the proposed member Skills exist or are explicitly marked as planned.
 4. Create `skillsets/<skillset-name>/SKILLSET.MD`.
 5. Define the Skill Set's boundary, shared requirements, selection logic, and member Skill table.
@@ -281,8 +281,8 @@ When several Skills form one coherent domain or role:
 When multiple Skill Sets combine into a broader reusable ability:
 
 1. Search the **Capability Manifest** for an equivalent ability.
-2. Read `agent-specifications\Specs\CAPABILITY.SPECIFICATION.MD`.
-3. Read `agent-specifications\Specs\CAPABILITY-SKILLSET.INSTRUNCTION.MD` for composition and routing behavior.
+2. Read `agent-specifications\specs\capability.specification.md`.
+3. Read `instructions\capability-skillset-instructions\capability-skillset.instructions.md` for composition and routing behavior.
 4. Verify that the member Skill Sets exist and represent distinct, meaningful functions.
 5. Create `capabilities/<capability-name>/CAPABILITY.MD`.
 6. Define the capability boundary, member Skill Sets, composition, routing, shared constraints, and expected outcomes.
@@ -353,7 +353,9 @@ This table indexes every managed Skill available to the project or library.
 
 | Status | Skill | Description / Purpose | Canonical Path | Version | Skill Set | Capability | Dependencies / Requirements | Related Skills | Tags | Updated | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |  |  |  |  |  |
+| active | hermes-reverse-engineering | Locates reusable architecture (prompt layering, agent memory, plugin/hook systems, prompt-injection defense, ACP/MCP interop) inside the NousResearch/hermes-agent codebase without crawling all ~11,300 files. | `skills/hermes-reverse-engineering/hermes-reverse-engineering.skill.md` | 1.0.0 | — | — | none | — | ReverseEngineering, AgentArchitecture, PromptEngineering, Memory, Plugins, Security, Salvage | 2026-09-03 | Entry file uses the `<name>.skill.md` convention rather than `SKILL.MD`; companion reference doc is the sibling `hermes-reverse-engineering.md`. |
+| active | qa-code-review | Full QA code review: scans and reverse-engineers changed code, backtraces dependencies/behavior, reconstructs intent, proposes tests, runs evidence-based verification, and produces a Critical/Corrective/Optimization assessment for PR/branch/working-tree reviews. | `skills/qa-code-review-v1.0.0/qa-code-review/qa-code-review.skill.md` | 1.0.0 | qa-code-review (declared, no `SKILLSET.MD` yet) | engineering-quality-assurance (declared, no `CAPABILITY.MD` yet) | filesystem read/write, git read, shell test commands | — | qa, code-review, testing, backtrace, analysis | — | Entry file uses the `<name>.skill.md` convention rather than `SKILL.MD`; split into companion `qa-code-review.{manifest,frontend,backend,ai,episodic-memory}.md` files in the same folder. Reused across other NeuroFlo products — do not remove. |
+| active | prompt-engineering | Router/index over the two-volume Advanced Prompt Engineering Frameworks compendium (49 methods); selects the framework matching the prompt's failure mode and applies its template. | `prompt_engineering/prompt-engineering.skill.md` | 1.0.0 | — | — | none | — | prompt-engineering, frameworks, reasoning, agents, llm, reference | — | Lives outside `skills/` at the repository's `prompt_engineering/` root per the Prompt Engineering Library convention (README §11), not under `skills/`. |
 
 ---
 
@@ -414,7 +416,7 @@ The Skill hierarchy is intended to remain vendor-neutral at the semantic level. 
 When vendor-specific representation is required, follow:
 
 ```text
-agent-specifications\Specs\VENDOR-FORMATS.SPECIFICATION.MD
+agent-specifications\specs\vendor-formats.specification.md
 ```
 
 Do not weaken or discard the canonical meaning merely because one runtime lacks a native equivalent. Preserve the canonical source and transform only what the vendor requires.
@@ -429,9 +431,9 @@ Before considering the Skill hierarchy current:
 - [ ] Every active Skill Set has exactly one valid Skill Set Manifest row.
 - [ ] Every active Capability has exactly one valid Capability Manifest row.
 - [ ] Every manifest path resolves to the authoritative artifact.
-- [ ] Every Skill folder contains a `SKILL.MD` that follows `SKILL.SPECIFICATION.MD`.
-- [ ] Every Skill Set follows `SKILLSET.SPECIFICATION.MD`.
-- [ ] Every Capability follows `CAPABILITY.SPECIFICATION.MD`.
+- [ ] Every Skill folder contains a `SKILL.MD` that follows `skill.specification.md`.
+- [ ] Every Skill Set follows `skillset.specification.md`.
+- [ ] Every Capability follows `capability.specification.md`.
 - [ ] Skill → Skill Set → Capability relationships agree in both directions where parent metadata is used.
 - [ ] No manifest entry claims a missing child is active.
 - [ ] No procedures are unnecessarily duplicated across hierarchy layers.

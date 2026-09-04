@@ -203,7 +203,7 @@ Use repository-relative references whenever the task is committed with the proje
 | Resource | Purpose |
 |---|---|
 | `docs/admin-page-spec.md` | Authoritative UI and interaction requirements. |
-| `Specs/skill.specification.md` | Required structure for the skill created by this task. |
+| `agent-specifications/specs/skill.specification.md` | Required structure for the skill created by this task. |
 ```
 
 ## Relationship to Other Artifacts

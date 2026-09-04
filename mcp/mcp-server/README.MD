@@ -23,7 +23,7 @@ The server is intentionally local and filesystem-oriented.
 The migration tool deliberately writes a **plan**, not an automatic bulk migration. Semantic migration still follows:
 
 ```text
-../setup/MIGRATION.INSTRUCTIONS.MD
+../../MIGRATION.INSTRUCTIONS.MD
 ```
 
 ## REQUIREMENTS
@@ -41,7 +41,7 @@ The server uses the current split MCP TypeScript/JavaScript server SDK package:
 ## INSTALL
 
 ```bash
-cd mcp-server
+cd mcp/mcp-server
 npm install
 ```
 
@@ -80,7 +80,7 @@ If this framework is installed under `.agent-framework`:
       "type": "stdio",
       "command": "node",
       "args": [
-        "${workspaceFolder}/.agent-framework/mcp-server/src/index.mjs"
+        "${workspaceFolder}/.agent-framework/mcp/mcp-server/src/index.mjs"
       ],
       "env": {
         "AGENT_FRAMEWORK_HOME": "${workspaceFolder}/.agent-framework"
@@ -99,7 +99,7 @@ If using Admin Local:
       "type": "stdio",
       "command": "node",
       "args": [
-        "${workspaceFolder}/.admin-local/shared_toolbox/agent-control-framework/mcp-server/src/index.mjs"
+        "${workspaceFolder}/.admin-local/shared_toolbox/agent-control-framework/mcp/mcp-server/src/index.mjs"
       ],
       "env": {
         "AGENT_FRAMEWORK_HOME": "${workspaceFolder}/.admin-local/shared_toolbox/agent-control-framework"

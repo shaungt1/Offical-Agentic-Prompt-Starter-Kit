@@ -148,12 +148,11 @@ else
   (
     cd "$staged_source"
     tar -cf - \
-      --exclude='./.git' \
-      --exclude='./.git/*' \
-      --exclude='./node_modules' \
-      --exclude='./node_modules/*' \
-      --exclude='./.DS_Store' \
-      --exclude='./*.zip' \
+      --exclude='.git' \
+      --exclude='node_modules' \
+      --exclude='.admin-local' \
+      --exclude='.DS_Store' \
+      --exclude='*.zip' \
       .
   ) | (
     cd "$tmp_payload"
@@ -241,10 +240,10 @@ When creating, modifying, discovering, or validating an agent-control artifact:
 
 1. Read \`$destination/README.MD\` when repository-level routing is needed.
 2. Read the applicable root manifest before creating a duplicate.
-3. Follow the corresponding specification under \`$destination/agent-specifications/Specs/\`.
+3. Follow the corresponding specification under \`$destination/agent-specifications/specs/\`.
 4. Load only the documents relevant to the current task.
 5. Preserve vendor-native entry files when the runtime requires them.
-6. For existing customizations, follow \`$destination/setup/MIGRATION.INSTRUCTIONS.MD\`.
+6. For existing customizations, follow \`$destination/MIGRATION.INSTRUCTIONS.MD\`.
 
 $MARKER_END
 EOF
@@ -260,12 +259,12 @@ else
   echo "Validation:"
   required_files="
 README.MD
-agent-specifications/Specs/SKILL.SPECIFICATION.MD
+agent-specifications/specs/skill.specification.md
 skills/SKILLS.MD
 rules/RULES.MD
 task/TASKS.MD
-setup/AGENT-SETUP.INSTRUCTIONS.MD
-setup/MIGRATION.INSTRUCTIONS.MD
+AGENT-SETUP.INSTRUCTIONS.MD
+MIGRATION.INSTRUCTIONS.MD
 "
   failed="no"
   echo "$required_files" | while IFS= read -r f; do

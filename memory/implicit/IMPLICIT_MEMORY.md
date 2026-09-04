@@ -7,7 +7,7 @@
 **Entry point:** `memory/implicit/IMPLICIT_MEMORY.md`  
 **Mutable store:** `memory/implicit/implicit.memory.md`  
 **Operational instructions:** `memory/implicit/implicit-memory.instructions.md`  
-**Normative format specification:** `agent-specifications/Specs/implicit-memory.specification.md`
+**Normative format specification:** `agent-specifications/specs/implicit-memory.specification.md`
 
 ---
 
@@ -359,35 +359,34 @@ An implicit memory must never independently override current explicit instructio
 
 ```text
 memory/
-├── MEMORY_INDEX.md
+├── MEMORY.md
 │
 └── implicit/
     ├── IMPLICIT_MEMORY.md
     ├── implicit-memory.instructions.md
+    ├── implicit-memory-tool.specification.md
     ├── implicit.memory.md
-    │
-    └── tools/
-        └── implicit-memory-tool.specification.md
+    └── MEMORY_INDEX_ENTRY.md
 ```
 
 - `IMPLICIT_MEMORY.md` — this root entry document and conceptual map.
 - `implicit-memory.instructions.md` — the complete executable instruction set.
 - `implicit.memory.md` — the mutable human-readable memory store.
-- `tools/implicit-memory-tool.specification.md` — persistence and retrieval interface contract.
-- `agent-specifications/Specs/implicit-memory.specification.md` — external normative file-format specification.
+- `implicit-memory-tool.specification.md` — persistence and retrieval interface contract.
+- `agent-specifications/specs/implicit-memory.specification.md` — external normative file-format specification.
 
 ---
 
 ## 11. Quick Setup
 
-1. Add an entry to the existing `memory/MEMORY_INDEX.md` pointing to `memory/implicit/IMPLICIT_MEMORY.md`.
+1. Add an entry to the existing `memory/MEMORY.md` Memory Manifest pointing to `memory/implicit/IMPLICIT_MEMORY.md`.
 2. Add the compact runtime hook from `implicit-memory.instructions.md` to the master agent prompt.
-3. Implement `[IMPLICIT_MEMORY_TOOL]` according to `tools/implicit-memory-tool.specification.md`, or configure file-backed mode.
+3. Implement `[IMPLICIT_MEMORY_TOOL]` according to `implicit-memory-tool.specification.md`, or configure file-backed mode.
 4. Load the detailed instructions only when the lightweight runtime hook determines that memory retrieval or learning may matter.
 5. Retrieve narrowly; do not load the full memory store during ordinary turns.
 6. Keep one authoritative persistence source so file and database state cannot silently diverge.
 
-A ready-to-insert parent-index entry is included at `memory/MEMORY_INDEX_ENTRY.md`.
+A ready-to-insert manifest entry is included at `memory/implicit/MEMORY_INDEX_ENTRY.md`.
 
 ---
 

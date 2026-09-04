@@ -18,11 +18,11 @@ This file is the **canonical rule manifest and operating guide** for the project
 
 The manifest does **not** replace the rule specification. When a new rule is created or an existing rule is structurally changed, follow:
 
-`agent-specifications/Specs/rules.specification.md`
+`agent-specifications/specs/rules.specification.md`
 
 For vendor-specific rule formats or placement requirements, also follow:
 
-`agent-specifications/Specs/vendor-formats.specification.md`
+`agent-specifications/specs/vendor-formats.specification.md`
 
 ## What a Rule Is
 
@@ -83,7 +83,7 @@ rules/
     └── rules.md
 ```
 
-The individual `rules.md` inside each rule directory must be authored according to `agent-specifications/Specs/rules.specification.md`. Do not invent a new rule structure merely because a vendor supports a different native format. Vendor-native forms are transformations of the canonical rule and are documented separately.
+The individual `rules.md` inside each rule directory must be authored according to `agent-specifications/specs/rules.specification.md`. Do not invent a new rule structure merely because a vendor supports a different native format. Vendor-native forms are transformations of the canonical rule and are documented separately.
 
 ## How to Use This Manifest
 
@@ -91,12 +91,12 @@ Before creating, changing, or applying a rule:
 
 1. Read the manifest below and determine whether an applicable rule already exists.
 2. If a matching rule exists, open that rule and follow it. Update the existing rule instead of creating a duplicate when the policy is materially the same.
-3. If no matching rule exists and a new reusable behavioral constraint is required, read `agent-specifications/Specs/rules.specification.md` before authoring it.
+3. If no matching rule exists and a new reusable behavioral constraint is required, read `agent-specifications/specs/rules.specification.md` before authoring it.
 4. Create a directory using the rule's stable name: `rules/<rule-name>/`.
 5. Create `rules/<rule-name>/rules.md` using the required structure from the specification.
 6. Add the rule to the **Rule Manifest** table in this file.
 7. Verify the rule's path, scope, status, dependencies, and any related rules.
-8. If a vendor-specific representation is required, consult `agent-specifications/Specs/vendor-formats.specification.md` and preserve the canonical rule's meaning during translation.
+8. If a vendor-specific representation is required, consult `agent-specifications/specs/vendor-formats.specification.md` and preserve the canonical rule's meaning during translation.
 
 Do not create a rule solely to restate another rule, an instruction, or a specification. Reference the authoritative source instead.
 
@@ -151,8 +151,8 @@ memory/
 
 | Rule Domain | Purpose | Governing Specification | Expected Location |
 |---|---|---|---|
-| Episodic memory rules | Govern capture, retention, interpretation, consolidation, or use of event/session memory. | `agent-specifications/Specs/episodic-memory.specification.md` + `agent-specifications/Specs/rules.specification.md` | `memory/episodic/rules/` or the project-defined episodic-memory rules location |
-| Implicit memory rules | Govern learned preferences, tendencies, inferred patterns, promotion thresholds, or use of implicit memory. | `agent-specifications/Specs/implicit-memory.specification.md` + `agent-specifications/Specs/rules.specification.md` | `memory/implicit/rules/` or the project-defined implicit-memory rules location |
+| Episodic memory rules | Govern capture, retention, interpretation, consolidation, or use of event/session memory. | `agent-specifications/specs/episodic-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/episodic/rules/` or the project-defined episodic-memory rules location |
+| Implicit memory rules | Govern learned preferences, tendencies, inferred patterns, promotion thresholds, or use of implicit memory. | `agent-specifications/specs/implicit-memory.specification.md` + `agent-specifications/specs/rules.specification.md` | `memory/implicit/rules/` or the project-defined implicit-memory rules location |
 
 Memory-scoped rules should **not be duplicated** into the ordinary Rule Manifest merely to make them visible. Instead, keep them indexed by their owning memory subsystem and maintain the cross-reference above. If the project's memory specifications define a different location, those specifications take precedence for storage.
 
@@ -163,7 +163,7 @@ There is no single vendor-native rule-file convention shared by every agent syst
 When a vendor requires a native rule representation:
 
 1. Keep the canonical rule in this hierarchy unless the project explicitly chooses a vendor-native-only structure.
-2. Follow `agent-specifications/Specs/vendor-formats.specification.md` for the vendor transformation.
+2. Follow `agent-specifications/specs/vendor-formats.specification.md` for the vendor transformation.
 3. Preserve the canonical rule's behavioral meaning, scope, and constraints.
 4. Do not add separate manifest rows for generated or translated vendor copies.
 
@@ -184,7 +184,7 @@ Before considering the rule library current:
 
 - [ ] Every ordinary rule under `rules/` has exactly one manifest row.
 - [ ] Every manifest path resolves to an existing rule file.
-- [ ] Every individual rule follows `agent-specifications/Specs/rules.specification.md`.
+- [ ] Every individual rule follows `agent-specifications/specs/rules.specification.md`.
 - [ ] No active rules materially duplicate or silently contradict one another.
 - [ ] Rule scopes and activation conditions are explicit where scope is not global.
 - [ ] Disabled and deprecated rules are clearly marked.

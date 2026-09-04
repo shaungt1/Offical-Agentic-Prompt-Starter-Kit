@@ -102,7 +102,7 @@ Preferred options:
 ### Bundled shell installer
 
 ```bash
-sh <SOURCE>/scripts/INSTALL-FRAMEWORK.SH install \
+sh <SOURCE>/INSTALL-FRAMEWORK.SH install \
   --source <SOURCE> \
   --target <PROJECT_ROOT> \
   --destination <DESTINATION>
@@ -150,10 +150,10 @@ When creating, modifying, discovering, or validating an agent-control artifact:
 
 1. Read `<FRAMEWORK_ROOT>/README.MD` when repository-level routing is needed.
 2. Read the applicable root manifest before creating a duplicate.
-3. Follow the corresponding specification under `<FRAMEWORK_ROOT>/agent-specifications/Specs/`.
+3. Follow the corresponding specification under `<FRAMEWORK_ROOT>/agent-specifications/specs/`.
 4. Load only the documents relevant to the current task.
 5. Preserve vendor-native entry files when the runtime requires them.
-6. For existing customizations, follow `<FRAMEWORK_ROOT>/setup/MIGRATION.INSTRUCTIONS.MD`.
+6. For existing customizations, follow `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.MD`.
 
 <!-- END PORTABLE AGENT CONTROL FRAMEWORK -->
 ```
@@ -166,7 +166,7 @@ Verify that the agent can resolve:
 
 ```text
 <FRAMEWORK_ROOT>/README.MD
-<FRAMEWORK_ROOT>/agent-specifications/Specs/
+<FRAMEWORK_ROOT>/agent-specifications/specs/
 <FRAMEWORK_ROOT>/skills/SKILLS.MD
 <FRAMEWORK_ROOT>/rules/RULES.MD
 <FRAMEWORK_ROOT>/instructions/INSTRUCTIONS.MD
@@ -192,7 +192,7 @@ The framework's root manifests and specifications are canonical authoring/routin
 Follow:
 
 ```text
-agent-specifications/Specs/VENDOR-FORMATS.SPECIFICATION.MD
+agent-specifications/specs/vendor-formats.specification.md
 ```
 
 before creating vendor transformations.
@@ -202,7 +202,7 @@ before creating vendor transformations.
 If existing agent-control content is present and the user wants it integrated, read:
 
 ```text
-setup/MIGRATION.INSTRUCTIONS.MD
+MIGRATION.INSTRUCTIONS.MD
 ```
 
 Perform a dry-run inventory first.

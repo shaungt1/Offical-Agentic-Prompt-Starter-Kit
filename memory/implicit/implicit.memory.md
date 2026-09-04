@@ -17,7 +17,7 @@ This file contains active implicit-memory records when the system operates in **
 When a database or memory service is authoritative, this file may instead be a synchronized human-readable projection or index. The host must not allow the file and database to evolve independently as competing sources of truth.
 
 Operational behavior: `implicit-memory.instructions.md`  
-Normative format: `../../agent-specifications/Specs/implicit-memory.specification.md`
+Normative format: `../../agent-specifications/specs/implicit-memory.specification.md`
 
 ---
 

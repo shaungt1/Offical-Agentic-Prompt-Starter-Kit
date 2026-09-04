@@ -6,7 +6,7 @@
 **Placeholder used by agent instructions:** `[IMPLICIT_MEMORY_TOOL]`  
 **Subsystem:** `../IMPLICIT_MEMORY.md`  
 **Operational instructions:** `../implicit-memory.instructions.md`  
-**Normative memory format:** `../../../agent-specifications/Specs/implicit-memory.specification.md`
+**Normative memory format:** `../../agent-specifications/specs/implicit-memory.specification.md`
 
 ---
 

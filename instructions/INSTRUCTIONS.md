@@ -26,7 +26,7 @@ Instructions should:
 
 ## Creating Instructions
 
-Use `agent-specifications/Specs/instructions.specification.md` whenever a new instruction file is created or materially redesigned.
+Use `agent-specifications/specs/instructions.specification.md` whenever a new instruction file is created or materially redesigned.
 
 Before creation:
 
@@ -45,7 +45,7 @@ instructions/
 └── <instruction-name>.instructions.md
 ```
 
-Vendor-specific transformations are defined by `agent-specifications/Specs/vendor-formats.specification.md`.
+Vendor-specific transformations are defined by `agent-specifications/specs/vendor-formats.specification.md`.
 
 ## Instruction Manifest
 
@@ -58,6 +58,6 @@ Vendor-specific transformations are defined by `agent-specifications/Specs/vendo
 - [ ] Every active instruction set is indexed once.
 - [ ] Scope is explicit.
 - [ ] Manifest paths resolve.
-- [ ] Instructions follow `agent-specifications/Specs/instructions.specification.md`.
+- [ ] Instructions follow `agent-specifications/specs/instructions.specification.md`.
 - [ ] Rules are referenced rather than unnecessarily duplicated.
 - [ ] Vendor-specific copies preserve the canonical meaning.

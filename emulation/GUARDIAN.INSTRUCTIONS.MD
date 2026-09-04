@@ -10,7 +10,7 @@ metadata:
   category: emulation
   stage: guardian
   tags: [guardian, best-self, values, audience, privacy, reputation, emulation]
-  specification_reference: "agent-specifications/Specs/GUARDIAN.SPECIFICATION.MD"
+  specification_reference: "agent-specifications/specs/guardian.specification.md"
   manifest_reference: "EMULATION.MANIFEST.MD"
 ---
 

@@ -7,7 +7,7 @@ license: "Project-specific"
 platforms: [linux, macos, windows]
 metadata:
   specification:
-    artifact: "Specs/README.md"
+    artifact: "agent-specifications/specs/_README.md"
     category: index
     status: draft
     normative: true
@@ -20,7 +20,7 @@ metadata:
 This directory is a portable authoring library. It defines **how to construct agent-control artifacts** consistently across repositories and vendor runtimes. The specifications describe universal semantics first, then document vendor transformations where formats differ.
 
 #### IMPORTANT!
-Use the [agent-specifications\Specs\_specification-authoring.md](agent-specifications\Specs\_specification-authoring.md) to build a new spcisification and then add a reference index to the manefest table below.
+Use [`_specification-authoring.md`](_specification-authoring.md) to build a new specification and then add a reference row to the Specification Map table below.
 
 ---
 
@@ -44,11 +44,11 @@ The internal filenames stay the same even when the physical location changes. A 
 
 | Priority | Environment | Suggested location | Notes |
 |---|---|---|---|
-| **Recommended local briefcase** | **Admin Local** | `.admin-local/Agents/Specs/` | Portable between projects and automatically excluded from Git. Best for a private personal library. Install: https://marketplace.visualstudio.com/items?itemName=shaun-pritchard.admin-local |
-| **Recommended shared repo** | Vendor-neutral | `Specs/` or `.agents/Specs/` | Commit this location when the team needs the same specifications in source control. |
-| Native-adjacent | GitHub Copilot / VS Code | `.github/Specs/` | Keeps shared authoring standards near Copilot agents, prompts, instructions, and skills. The Specs folder itself is a project convention. |
-| Native-adjacent | Claude Code | `.claude/Specs/` | Keeps the library beside Claude rules and skills. The Specs folder itself is a project convention. |
-| Native-adjacent | Other vendors | `<vendor-config-root>/Specs/` | Use only when the vendor has a stable project configuration root and document the path in the controlling file. |
+| **Recommended local briefcase** | **Admin Local** | `.admin-local/agents/specs/` | Portable between projects and automatically excluded from Git. Best for a private personal library. Install: https://marketplace.visualstudio.com/items?itemName=shaun-pritchard.admin-local |
+| **Recommended shared repo** | Vendor-neutral | `agent-specifications/specs/` or `.agents/specs/` | Commit this location when the team needs the same specifications in source control. |
+| Native-adjacent | GitHub Copilot / VS Code | `.github/specs/` | Keeps shared authoring standards near Copilot agents, prompts, instructions, and skills. The specs folder itself is a project convention. |
+| Native-adjacent | Claude Code | `.claude/specs/` | Keeps the library beside Claude rules and skills. The specs folder itself is a project convention. |
+| Native-adjacent | Other vendors | `<vendor-config-root>/specs/` | Use only when the vendor has a stable project configuration root and document the path in the controlling file. |
 
 > **Admin Local caveat:** `.admin-local/` is intentionally local and Git-excluded. If these specifications must be reviewed, versioned, or shared by a team, keep the canonical copy in a committed repository location and optionally mirror/import it into Admin Local.
 
@@ -66,7 +66,7 @@ A repository control file can contain a directive such as:
 
 ```markdown
 ## Artifact Construction
-Before creating or materially changing an agent-control artifact, read `Specs/README.md` and the matching specification. Use `Specs/vendor-formats.specification.md` when a vendor-specific filename, path, frontmatter field, or runtime behavior is required.
+Before creating or materially changing an agent-control artifact, read `agent-specifications/specs/_README.md` and the matching specification. Use `agent-specifications/specs/vendor-formats.specification.md` when a vendor-specific filename, path, frontmatter field, or runtime behavior is required.
 ```
 
 ## Specification Map
@@ -111,6 +111,8 @@ Before creating or materially changing an agent-control artifact, read `Specs/RE
 | 36 | [`guardian.specification.md`](guardian.specification.md) | Reputation, audience, boundary, and best-self gating |
 | 37 | [`optimization.specification.md`](optimization.specification.md) | Friction detection and proactive optimization instructions |
 | 38 | [`vendor-formats.specification.md`](vendor-formats.specification.md) | Vendor filenames, locations, extensions, and translations |
+| 39 | [`task.specification.md`](task.specification.md) | `TASKS.md` / Task and Task List files — concrete units of work |
+| 40 | [`mode.specification.md`](mode.specification.md) | Triggered stance/output changes with no execution |
 
 ## Universal Design Principles
 

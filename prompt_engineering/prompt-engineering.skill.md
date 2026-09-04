@@ -18,8 +18,8 @@ This skill turns two reference documents into an operating procedure. The docume
 
 Source documents (entry numbers map directly to sections inside them):
 
-- Volume One, entries 1-31: `agent-specifications/prompt_engineering/Advanced_Prompt_Engineering_Frameworks.md`
-- Volume Two, entries 32-49: `agent-specifications/prompt_engineering/Advanced_Prompt_Engineering_Frameworks_Vol2.md`
+- Volume One, entries 1-31: `prompt_engineering/Advanced_Prompt_Engineering_Frameworks.md`
+- Volume Two, entries 32-49: `prompt_engineering/Advanced_Prompt_Engineering_Frameworks_Vol2.md`
 
 ## When to Use
 

@@ -1,3 +1,3 @@
 # Agent Specifications Artifact
 
-The complete specification library is in [`Specs/`](Specs/README.md). Copy the `Specs/` directory into a repository or a vendor-specific/local location described by the master README.
+The complete specification library is in [`specs/`](specs/_README.md). Copy the `specs/` directory into a repository or a vendor-specific/local location described by the master README.

@@ -17,7 +17,7 @@ A tool is different from a mode or rule because it **executes**. A skill may use
 
 ## Creating a Tool
 
-Follow `agent-specifications/Specs/tool.specification.md`.
+Follow `agent-specifications/specs/tool.specification.md`.
 
 If the tool is exposed through MCP, packaged in a plugin, or depends on another protocol, also follow the applicable MCP/plugin/protocol specification rather than duplicating that information here.
 
@@ -48,6 +48,6 @@ tools/
 
 - [ ] Every active tool is indexed.
 - [ ] Tool paths resolve.
-- [ ] Tools follow `agent-specifications/Specs/tool.specification.md`.
+- [ ] Tools follow `agent-specifications/specs/tool.specification.md`.
 - [ ] Inputs, outputs, permissions, idempotency, and failure behavior are explicit.
 - [ ] Side effects and confirmation requirements are visible.

@@ -51,7 +51,7 @@ Before creating a mode:
 1. Check the **Mode Manifest** below for an existing mode that already covers the requested behavior.
 2. If the behavior is a constraint that should always apply, create a rule instead.
 3. If the behavior performs a repeatable procedure, create a skill or workflow instead.
-4. If a new mode is appropriate, follow `agent-specifications/Specs/mode.specification.md`.
+4. If a new mode is appropriate, follow `agent-specifications/specs/mode.specification.md`.
 5. Create the mode under the project's selected mode location.
 6. Add one row to this manifest.
 7. Verify its triggers, exit behavior, precedence, and path.
@@ -91,7 +91,7 @@ Compatible modes may be combined. Conflicting modes must resolve according to ex
 
 - [ ] Every active mode has one manifest row.
 - [ ] Every manifest path resolves.
-- [ ] Every mode follows `agent-specifications/Specs/mode.specification.md`.
+- [ ] Every mode follows `agent-specifications/specs/mode.specification.md`.
 - [ ] Trigger phrases and exit behavior are explicit.
 - [ ] Modes do not contain hidden execution behavior or permission grants.
 - [ ] Conflicting modes have a defined resolution path.

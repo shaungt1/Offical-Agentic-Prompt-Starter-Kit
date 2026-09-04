@@ -1,6 +1,6 @@
-# MEMORY_INDEX.md — Implicit Memory Entry
+# MEMORY.md — Implicit Memory Entry
 
-> Copy or adapt the section below into the existing `memory/MEMORY_INDEX.md`.
+> Copy or adapt the section below into the Memory Manifest table in the existing `memory/MEMORY.md`.
 
 ```markdown
 ## Implicit Memory

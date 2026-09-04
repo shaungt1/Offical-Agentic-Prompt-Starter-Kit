@@ -11,7 +11,7 @@ metadata:
   category: emulation
   stage: observation
   tags: [observation, owner-model, semantic-signals, behavior, memory]
-  specification_reference: "agent-specifications/Specs/OBSERVATION.SPECIFICATION.MD"
+  specification_reference: "agent-specifications/specs/observation.specification.md"
   manifest_reference: "EMULATION.MANIFEST.MD"
 ---
 

@@ -172,7 +172,7 @@ If one file contains several unrelated artifact types, do not automatically spli
 | Emulation | `emulation/` |
 | Heartbeat | `telemetry/HEARTBEAT.MD` |
 | Aura | `state/AURA.STATE.MD` |
-| Prompt frameworks | `prompt-engineering/` or project-selected prompt root |
+| Prompt frameworks | `prompt_engineering/` or project-selected prompt root |
 | Research / proposals | `documentation/` |
 
 Canonical roots do not override vendor discovery requirements.
@@ -253,7 +253,7 @@ A canonical Skill should live in its own folder:
 └── SKILL.MD
 ```
 
-Follow `SKILL.SPECIFICATION.MD`.
+Follow `skill.specification.md`.
 
 Do not turn every reusable prompt into a Skill automatically. A Skill should encode a reusable capability/procedure.
 
@@ -278,7 +278,7 @@ Do not duplicate already-completed work.
 Follow both:
 
 ```text
-TASK.SPECIFICATION.MD
+task.specification.md
 task/TASK-MANAGEMENT.INSTRUCTIONS.MD
 ```
 

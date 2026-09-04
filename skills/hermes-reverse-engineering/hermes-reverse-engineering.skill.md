@@ -21,7 +21,7 @@ metadata:
 
 The problem is scale. Naively exploring 11,300 files burns an entire context window and finds nothing. This skill exists to skip that: it names the files that matter, in the order worth reading them, and points at a companion document that already reverse-engineers the major subsystems in depth.
 
-**Companion document:** `references/hermes-reverse-engineering.md` — ~11,400 words, 18 sections plus appendices, every claim cited to a file path and usually a line number. **Read the relevant section there before opening source.** It will usually answer the question outright.
+**Companion document:** `hermes-reverse-engineering.md` (same folder) — ~11,400 words, 18 sections plus appendices, every claim cited to a file path and usually a line number. **Read the relevant section there before opening source.** It will usually answer the question outright.
 
 **Snapshot:** repo cloned and read 2026-09-03. Desktop app at v0.17.0. Line numbers below are from that snapshot and will drift; the file paths are stable.
 

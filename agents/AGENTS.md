@@ -25,8 +25,8 @@ An override is part of the agent family and does not require its own specificati
 
 Follow:
 
-- `agent-specifications/Specs/agent.specification.md` for the universal agent contract.
-- `agent-specifications/Specs/vendor-formats.specification.md` when translating the agent into a vendor-native filename, location, frontmatter, or runtime feature.
+- `agent-specifications/specs/agent.specification.md` for the universal agent contract.
+- `agent-specifications/specs/vendor-formats.specification.md` when translating the agent into a vendor-native filename, location, frontmatter, or runtime feature.
 
 The canonical semantics remain stable even when the vendor representation changes.
 

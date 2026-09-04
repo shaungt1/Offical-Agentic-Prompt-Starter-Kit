@@ -15,9 +15,9 @@ Identity is intentionally narrower than `SOUL.md`. Identity names and presents t
 
 ## Creating an Identity
 
-Follow `agent-specifications/Specs/identity.specification.md`.
+Follow `agent-specifications/specs/identity.specification.md`.
 
-When deeper personality or values are required, follow `agent-specifications/Specs/soul.specification.md` and link the soul artifact rather than placing the entire persona inside the identity file.
+When deeper personality or values are required, follow `agent-specifications/specs/soul.specification.md` and link the soul artifact rather than placing the entire persona inside the identity file.
 
 Typical structure:
 
@@ -38,6 +38,6 @@ identity/
 
 - [ ] Every managed identity is indexed.
 - [ ] Identity paths resolve.
-- [ ] Identity follows `agent-specifications/Specs/identity.specification.md`.
+- [ ] Identity follows `agent-specifications/specs/identity.specification.md`.
 - [ ] Personality/values are referenced from soul rather than duplicated.
 - [ ] Agent responsibilities and tool permissions remain in the agent contract.

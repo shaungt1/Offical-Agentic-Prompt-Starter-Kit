@@ -89,6 +89,8 @@ External writes, purchases, account changes, messages, form submissions, credent
 
 A complete MCP deliverable SHOULD include source code, dependency manifest, MCP host configuration example, `.env.example` containing names only (never secrets), tests, and `MCP.md` or equivalent README documenting the contract.
 
+See `mcp/mcp-server/` in this repository for a working reference implementation of this specification (a local stdio server exposing `framework_inspect`, `framework_install_or_update`, `framework_wire_agent`, and `framework_write_migration_plan`).
+
 ## Framework Note
 
 LangChain, LlamaIndex, agent SDKs, or model providers MAY be used inside the implementation when they add real value, but MCP does not require them. Do not make a framework dependency part of the protocol unless the requested server actually needs it.

@@ -12,9 +12,9 @@ Use these instructions when creating, restructuring, or maintaining the reusable
 
 The governing specifications are:
 
-- `agent-specifications\Specs\capability.specification.md` — authoritative structure for `CAPABILITY.md`.
-- `agent-specifications\Specs\skillset.specification.md` — authoritative structure for `SKILLSET.md`.
-- `agent-specifications\Specs\skill.specification.md` — supporting structure for member `SKILL.md` files.
+- `agent-specifications\specs\capability.specification.md` — authoritative structure for `CAPABILITY.md`.
+- `agent-specifications\specs\skillset.specification.md` — authoritative structure for `SKILLSET.md`.
+- `agent-specifications\specs\skill.specification.md` — supporting structure for member `SKILL.md` files.
 
 **Before creating or materially changing a capability or skill set, read the matching specification.** These instructions explain how to decide what to build and how the layers work together; the specification defines the required artifact structure, frontmatter, sections, relationships, and validation rules.
 
@@ -113,7 +113,7 @@ When the architecture is designed top-down first, treat the initial capability a
 
 ## Building a Skill Set
 
-Follow `agent-specifications\Specs\skillset.specification.md` for the exact `SKILLSET.md` format.
+Follow `agent-specifications\specs\skillset.specification.md` for the exact `SKILLSET.md` format.
 
 A skill set MUST explain the domain boundary and provide a discoverable manifest of its member skills. It SHOULD help the agent decide which skill to load rather than repeat the instructions already contained in those skills.
 
@@ -158,7 +158,7 @@ The table is a map, not a substitute for the individual skills.
 
 ## Building a Capability
 
-Follow `agent-specifications\Specs\capability.specification.md` for the exact `CAPABILITY.md` format.
+Follow `agent-specifications\specs\capability.specification.md` for the exact `CAPABILITY.md` format.
 
 A capability MUST describe the broad ability and link the skill sets that collectively deliver it. It SHOULD explain composition, routing, shared constraints, and capability-level inputs or outcomes without restating the skills beneath those sets.
 
@@ -329,8 +329,8 @@ Before accepting a capability or skill set:
 
 When this instruction file and a specification appear to conflict, the artifact-specific specification controls the file structure and required properties:
 
-1. `agent-specifications\Specs\capability.specification.md`
-2. `agent-specifications\Specs\skillset.specification.md`
-3. `agent-specifications\Specs\skill.specification.md`
+1. `agent-specifications\specs\capability.specification.md`
+2. `agent-specifications\specs\skillset.specification.md`
+3. `agent-specifications\specs\skill.specification.md`
 
 Use this file for **decision-making, composition, construction order, traversal, and maintenance behavior**. Use the specification files for the exact artifact contract.

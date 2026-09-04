@@ -15,7 +15,7 @@ A plan is not a reusable workflow. A workflow defines a repeatable process; a pl
 
 ## Creating a Plan
 
-Follow `agent-specifications/Specs/plan.specification.md`.
+Follow `agent-specifications/specs/plan.specification.md`.
 
 Create a plan when work spans several meaningful steps, files, agents, decisions, or sessions. Do not create a plan for trivial work or merely to restate a Task List.
 
@@ -37,6 +37,6 @@ plans/
 
 - [ ] Active plans are indexed.
 - [ ] Plan paths resolve.
-- [ ] Each plan follows `agent-specifications/Specs/plan.specification.md`.
+- [ ] Each plan follows `agent-specifications/specs/plan.specification.md`.
 - [ ] Plans reference reusable workflows rather than copying them when one already exists.
 - [ ] Completion is supported by validation evidence.

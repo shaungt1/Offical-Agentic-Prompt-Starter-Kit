@@ -7,8 +7,8 @@
 **Applies to:** Agents using the Implicit Memory subsystem  
 **Subsystem overview:** `IMPLICIT_MEMORY.md`  
 **Mutable memory:** `implicit.memory.md`  
-**Tool contract:** `tools/implicit-memory-tool.specification.md`  
-**Normative specification:** `../../agent-specifications/Specs/implicit-memory.specification.md`
+**Tool contract:** `implicit-memory-tool.specification.md`  
+**Normative specification:** `../../agent-specifications/specs/implicit-memory.specification.md`
 
 ---
 

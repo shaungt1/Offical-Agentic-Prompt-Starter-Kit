@@ -15,7 +15,7 @@ A workflow defines **how a recurring process operates**. A plan is one concrete 
 
 ## Creating a Workflow
 
-Follow `agent-specifications/Specs/workflow.specification.md`.
+Follow `agent-specifications/specs/workflow.specification.md`.
 
 Create a workflow when several steps recur with stable sequencing, decision gates, handoffs, recovery behavior, or state transitions. If only one focused procedure is required, use a skill instead.
 
@@ -37,6 +37,6 @@ workflows/
 
 - [ ] Every active workflow is indexed once.
 - [ ] Manifest paths resolve.
-- [ ] Workflows follow `agent-specifications/Specs/workflow.specification.md`.
+- [ ] Workflows follow `agent-specifications/specs/workflow.specification.md`.
 - [ ] Inputs, outputs, branches, recovery, and completion checks are explicit.
 - [ ] Reusable skills/tools are referenced instead of redefined.
