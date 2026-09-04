@@ -22,7 +22,7 @@ Opensource production-ready AI agent prompt template &amp; workspace kit for Cur
 
 ```text
 Go get the Offical-Agentic-Prompt-Starter-Kit from GitHub
-(https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git)
+(https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git)
 and install it into this project.
 ```
 
@@ -282,7 +282,7 @@ You do not need a local copy first. Point `--source` at the GitHub repository an
 
 ```bash
 sh INSTALL-FRAMEWORK.SH install \
-  --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git \
+  --source https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git \
   --target /path/to/your-project \
   --destination .agent-framework \
   --wire agents
@@ -294,7 +294,7 @@ The script clones remote sources into a temporary directory and copies the frame
 
 ```bash
 sh INSTALL-FRAMEWORK.SH update \
-  --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git \
+  --source https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git \
   --target /path/to/your-project \
   --destination .agent-framework
 ```
@@ -358,7 +358,7 @@ Do **not** leave this repository's `.git/` directory inside another Git reposito
 Instead:
 
 ```bash
-git clone --depth 1 https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git /tmp/agent-framework
+git clone --depth 1 https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git /tmp/agent-framework
 rm -rf /tmp/agent-framework/.git
 cp -R /tmp/agent-framework /path/to/project/.agent-framework
 ```

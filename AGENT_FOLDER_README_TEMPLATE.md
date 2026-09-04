@@ -13,7 +13,7 @@ status: active
 
 A vendor-neutral library of specifications, root manifests, and runtime instructions that lets AI coding agents (Claude Code, GitHub Copilot, Cursor, Gemini CLI, Qwen Code, and any other `AGENTS.md`-aware or MCP-capable agent) build and use skills, rules, tasks, workflows, agent roles, tools, memory, and identity consistently — instead of one giant, ever-growing system prompt.
 
-**Source:** https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit
+**Source:** https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit
 **Folder version:** 0.4.0
 
 This folder is `FRAMEWORK_ROOT`. The project that installed it has its own `AGENTS.md` (or `CLAUDE.md`, `.github/copilot-instructions.md`, etc.) pointing here — that pointer file is separate and lives at the project root, not inside this folder.

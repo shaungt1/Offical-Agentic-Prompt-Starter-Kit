@@ -173,7 +173,7 @@ When authorized evidence about the project owner accumulates (interests, decisio
 5. Preserve vendor-native files (`CLAUDE.md`, `.github/copilot-instructions.md`, `.cursor/rules/`, etc.) when the runtime requires them. Point them at this framework rather than duplicating its instructions inside them.
 6. For existing project customizations, follow `<FRAMEWORK_ROOT>/MIGRATION.INSTRUCTIONS.md`.
 7. For installation or reconfiguration, follow `<FRAMEWORK_ROOT>/AGENT-SETUP.INSTRUCTIONS.md`.
-8. Getting the framework itself: clone or point an install at `https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git`, or use the local MCP server's `framework_install_or_update` tool if it is already connected.
+8. Getting the framework itself: clone or point an install at `https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git`, or use the local MCP server's `framework_install_or_update` tool if it is already connected.
 
 ## Referencing This File From a Vendor-Native Control File
 

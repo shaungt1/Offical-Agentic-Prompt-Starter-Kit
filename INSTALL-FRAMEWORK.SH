@@ -37,7 +37,7 @@ Examples:
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --wire agents --with-mcp both
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --admin-local --wire agents --with-mcp claude
   sh INSTALL-FRAMEWORK.SH install --source . --target ../my-project --layout full --wire agents
-  sh INSTALL-FRAMEWORK.SH update --source https://github.com/shaungt1/-Offical-Agentic-Prompt-Starter-Kit.git --target ../my-project
+  sh INSTALL-FRAMEWORK.SH update --source https://github.com/shaungt1/Offical-Agentic-Prompt-Starter-Kit.git --target ../my-project
 EOF
 }
 
